@@ -17,7 +17,6 @@ package com.liferay.training.space.gradebook.service.impl;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.security.permission.ActionKeys;
 import com.liferay.portal.kernel.service.ServiceContext;
-import com.liferay.portal.kernel.service.permission.PortalPermissionUtil;
 import com.liferay.training.space.gradebook.model.Assignment;
 import com.liferay.training.space.gradebook.service.base.AssignmentServiceBaseImpl;
 import com.liferay.training.space.gradebook.service.permission.AssignmentPermissionChecker;
@@ -101,5 +100,4 @@ public class AssignmentServiceImpl extends AssignmentServiceBaseImpl {
 
 		return assignmentPersistence.filterCountByGroupId(groupId);
 	}
-	
 }

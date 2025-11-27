@@ -10,7 +10,7 @@ import com.liferay.portal.kernel.service.permission.PortletPermissionUtil;
 import com.liferay.training.space.gradebook.model.Assignment;
 import com.liferay.training.space.gradebook.service.AssignmentLocalServiceUtil;
 
-public class AssignmentPermissionChecker {
+public class AssignmentPermissionChecker  {
 
 	public static final String ADD_ASSIGNMENT = "ADD_ASSIGNMENT";
 

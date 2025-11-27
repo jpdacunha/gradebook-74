@@ -11,10 +11,12 @@ import com.liferay.portal.kernel.util.ContentTypes;
 import com.liferay.portal.kernel.util.DateUtil;
 import com.liferay.training.space.gradebook.model.Assignment;
 import com.liferay.training.space.gradebook.model.Submission;
-import com.liferay.training.space.gradebook.service.base.AssignmentLocalServiceBaseImpl;
+
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+
+import com.liferay.training.space.gradebook.service.base.AssignmentLocalServiceBaseImpl;
 import org.osgi.service.component.annotations.Component;
 
 @Component(

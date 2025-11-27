@@ -16,7 +16,6 @@ import com.liferay.portal.kernel.spring.osgi.OSGiBeanProperties;
 import com.liferay.portal.kernel.transaction.Isolation;
 import com.liferay.portal.kernel.transaction.Transactional;
 
-//import org.osgi.annotation.versioning.ProviderType;
 
 /**
  * Provides the remote service interface for Submission. Methods of this
