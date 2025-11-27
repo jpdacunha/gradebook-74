@@ -1,0 +1,10 @@
+dependencies {
+
+	// API + Service
+	compileOnly project(":modules:gradebook:gradebook-api")
+	compileOnly project(":modules:gradebook:gradebook-lang")
+	compileOnly project(':modules:gradebook:gradebook-service')
+
+	// Liferay API (contient les taglibs)
+	compileOnly group: "com.liferay.portal", name: "release.portal.api"
+}

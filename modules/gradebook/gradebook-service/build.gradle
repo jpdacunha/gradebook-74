@@ -1,0 +1,10 @@
+dependencies {
+	compileOnly group: "com.liferay.portal", name: "release.portal.api"
+	compileOnly project(":modules:gradebook:gradebook-api")
+}
+
+buildService {
+	apiDir = "../gradebook-api/src/main/java"
+	osgiModule = true
+	propsUtil = "com.liferay.training.space.gradebook.service.util.PropsUtil"
+}

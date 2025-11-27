@@ -1,0 +1,40 @@
+<?xml version="1.0"?>
+
+<model-hints>
+	<model name="com.liferay.training.space.gradebook.model.Assignment">
+		<field name="uuid" type="String" />
+		<field name="assignmentId" type="long" />
+		<field name="groupId" type="long" />
+		<field name="companyId" type="long" />
+		<field name="userId" type="long" />
+		<field name="userName" type="String" />
+		<field name="createDate" type="Date" />
+		<field name="modifiedDate" type="Date" />
+		<field name="dueDate" type="Date" />
+		<field name="status" type="int" />
+		<field name="statusByUserId" type="long" />
+		<field name="statusByUserName" type="String" />
+		<field name="statusDate" type="Date" />
+		<field name="resourceBlockId" type="long" />
+		<field localized="true" name="title" type="String" />
+		<field name="description" type="String">
+			<hint-collection name="TEXTAREA" />
+		</field>
+	</model>
+	<model name="com.liferay.training.space.gradebook.model.Submission">
+		<field name="submissionId" type="long" />
+		<field name="groupId" type="long" />
+		<field name="companyId" type="long" />
+		<field name="userId" type="long" />
+		<field name="userName" type="String" />
+		<field name="createDate" type="Date" />
+		<field name="modifiedDate" type="Date" />
+		<field name="assignmentId" type="long" />
+		<field name="studentId" type="long" />
+		<field name="submitDate" type="Date" />
+		<field name="comment" type="String">
+			<hint-collection name="TEXTAREA" />
+		</field>
+		<field name="grade" type="int" />
+	</model>
+</model-hints>

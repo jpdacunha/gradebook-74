@@ -1,0 +1,18 @@
+<?xml version="1.0"?>
+
+<beans
+	default-destroy-method="destroy"
+	default-init-method="afterPropertiesSet"
+	xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd"
+>
+	<bean class="com.liferay.training.space.gradebook.service.impl.AssignmentLocalServiceImpl" id="com.liferay.training.space.gradebook.service.AssignmentLocalService" />
+	<bean class="com.liferay.training.space.gradebook.service.impl.AssignmentServiceImpl" id="com.liferay.training.space.gradebook.service.AssignmentService" />
+	<bean class="com.liferay.training.space.gradebook.service.persistence.impl.AssignmentModelArgumentsResolver" id="com.liferay.training.space.gradebook.service.persistence.impl.AssignmentModelArgumentsResolver" />
+	<bean class="com.liferay.training.space.gradebook.service.persistence.impl.AssignmentPersistenceImpl" id="com.liferay.training.space.gradebook.service.persistence.AssignmentPersistence" />
+	<bean class="com.liferay.training.space.gradebook.service.impl.SubmissionLocalServiceImpl" id="com.liferay.training.space.gradebook.service.SubmissionLocalService" />
+	<bean class="com.liferay.training.space.gradebook.service.impl.SubmissionServiceImpl" id="com.liferay.training.space.gradebook.service.SubmissionService" />
+	<bean class="com.liferay.training.space.gradebook.service.persistence.impl.SubmissionModelArgumentsResolver" id="com.liferay.training.space.gradebook.service.persistence.impl.SubmissionModelArgumentsResolver" />
+	<bean class="com.liferay.training.space.gradebook.service.persistence.impl.SubmissionPersistenceImpl" id="com.liferay.training.space.gradebook.service.persistence.SubmissionPersistence" />
+</beans>
