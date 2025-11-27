@@ -6,7 +6,7 @@
 package com.liferay.training.space.gradebook.service.base;
 
 import com.liferay.asset.kernel.service.persistence.AssetEntryPersistence;
-import com.liferay.asset.link.service.persistence.AssetLinkPersistence;
+import com.liferay.asset.kernel.service.persistence.AssetLinkPersistence;
 import com.liferay.asset.kernel.service.persistence.AssetTagPersistence;
 import com.liferay.portal.kernel.bean.BeanReference;
 import com.liferay.portal.kernel.dao.db.DB;
@@ -419,7 +419,7 @@ public abstract class AssignmentServiceBaseImpl
 	 *
 	 * @return the asset link local service
 	 */
-	public com.liferay.asset.link.service.AssetLinkLocalService
+	public com.liferay.asset.kernel.service.AssetLinkLocalService
 		getAssetLinkLocalService() {
 
 		return assetLinkLocalService;
@@ -431,7 +431,7 @@ public abstract class AssignmentServiceBaseImpl
 	 * @param assetLinkLocalService the asset link local service
 	 */
 	public void setAssetLinkLocalService(
-		com.liferay.asset.link.service.AssetLinkLocalService
+		com.liferay.asset.kernel.service.AssetLinkLocalService
 			assetLinkLocalService) {
 
 		this.assetLinkLocalService = assetLinkLocalService;
@@ -658,9 +658,9 @@ public abstract class AssignmentServiceBaseImpl
 	protected AssetEntryPersistence assetEntryPersistence;
 
 	@ServiceReference(
-		type = com.liferay.asset.link.service.AssetLinkLocalService.class
+		type = com.liferay.asset.kernel.service.AssetLinkLocalService.class
 	)
-	protected com.liferay.asset.link.service.AssetLinkLocalService
+	protected com.liferay.asset.kernel.service.AssetLinkLocalService
 		assetLinkLocalService;
 
 	@ServiceReference(type = AssetLinkPersistence.class)

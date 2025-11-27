@@ -30,6 +30,8 @@ import java.io.Serializable;
 
 import java.util.List;
 
+//import org.osgi.annotation.versioning.ProviderType;
+
 /**
  * Provides the local service interface for Submission. Methods of this
  * service will not have security checks based on the propagated JAAS
