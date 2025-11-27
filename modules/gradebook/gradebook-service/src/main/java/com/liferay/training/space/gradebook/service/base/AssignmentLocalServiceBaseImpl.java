@@ -6,8 +6,10 @@
 package com.liferay.training.space.gradebook.service.base;
 
 import com.liferay.asset.kernel.service.persistence.AssetEntryPersistence;
-import com.liferay.asset.kernel.service.persistence.AssetLinkPersistence;
+
 import com.liferay.asset.kernel.service.persistence.AssetTagPersistence;
+import com.liferay.asset.link.service.AssetLinkLocalService;
+import com.liferay.asset.link.service.persistence.AssetLinkPersistence;
 import com.liferay.exportimport.kernel.lar.ExportImportHelperUtil;
 import com.liferay.exportimport.kernel.lar.ManifestSummary;
 import com.liferay.exportimport.kernel.lar.PortletDataContext;
@@ -74,8 +76,8 @@ import javax.sql.DataSource;
  * @generated
  */
 public abstract class AssignmentLocalServiceBaseImpl
-	extends BaseLocalServiceImpl
-	implements AssignmentLocalService, IdentifiableOSGiService {
+		extends BaseLocalServiceImpl
+		implements AssignmentLocalService, IdentifiableOSGiService {
 
 	/*
 	 * NOTE FOR DEVELOPERS:
@@ -127,7 +129,7 @@ public abstract class AssignmentLocalServiceBaseImpl
 	@Indexable(type = IndexableType.DELETE)
 	@Override
 	public Assignment deleteAssignment(long assignmentId)
-		throws PortalException {
+			throws PortalException {
 
 		return assignmentPersistence.remove(assignmentId);
 	}
@@ -165,7 +167,7 @@ public abstract class AssignmentLocalServiceBaseImpl
 		Class<?> clazz = getClass();
 
 		return DynamicQueryFactoryUtil.forClass(
-			Assignment.class, clazz.getClassLoader());
+				Assignment.class, clazz.getClassLoader());
 	}
 
 	/**
@@ -193,10 +195,10 @@ public abstract class AssignmentLocalServiceBaseImpl
 	 */
 	@Override
 	public <T> List<T> dynamicQuery(
-		DynamicQuery dynamicQuery, int start, int end) {
+			DynamicQuery dynamicQuery, int start, int end) {
 
 		return assignmentPersistence.findWithDynamicQuery(
-			dynamicQuery, start, end);
+				dynamicQuery, start, end);
 	}
 
 	/**
@@ -214,11 +216,11 @@ public abstract class AssignmentLocalServiceBaseImpl
 	 */
 	@Override
 	public <T> List<T> dynamicQuery(
-		DynamicQuery dynamicQuery, int start, int end,
-		OrderByComparator<T> orderByComparator) {
+			DynamicQuery dynamicQuery, int start, int end,
+			OrderByComparator<T> orderByComparator) {
 
 		return assignmentPersistence.findWithDynamicQuery(
-			dynamicQuery, start, end, orderByComparator);
+				dynamicQuery, start, end, orderByComparator);
 	}
 
 	/**
@@ -241,10 +243,10 @@ public abstract class AssignmentLocalServiceBaseImpl
 	 */
 	@Override
 	public long dynamicQueryCount(
-		DynamicQuery dynamicQuery, Projection projection) {
+			DynamicQuery dynamicQuery, Projection projection) {
 
 		return assignmentPersistence.countWithDynamicQuery(
-			dynamicQuery, projection);
+				dynamicQuery, projection);
 	}
 
 	@Override
@@ -261,7 +263,7 @@ public abstract class AssignmentLocalServiceBaseImpl
 	 */
 	@Override
 	public Assignment fetchAssignmentByUuidAndGroupId(
-		String uuid, long groupId) {
+			String uuid, long groupId) {
 
 		return assignmentPersistence.fetchByUUID_G(uuid, groupId);
 	}
@@ -281,7 +283,7 @@ public abstract class AssignmentLocalServiceBaseImpl
 	@Override
 	public ActionableDynamicQuery getActionableDynamicQuery() {
 		ActionableDynamicQuery actionableDynamicQuery =
-			new DefaultActionableDynamicQuery();
+				new DefaultActionableDynamicQuery();
 
 		actionableDynamicQuery.setBaseLocalService(assignmentLocalService);
 		actionableDynamicQuery.setClassLoader(getClassLoader());
@@ -294,24 +296,24 @@ public abstract class AssignmentLocalServiceBaseImpl
 
 	@Override
 	public IndexableActionableDynamicQuery
-		getIndexableActionableDynamicQuery() {
+	getIndexableActionableDynamicQuery() {
 
 		IndexableActionableDynamicQuery indexableActionableDynamicQuery =
-			new IndexableActionableDynamicQuery();
+				new IndexableActionableDynamicQuery();
 
 		indexableActionableDynamicQuery.setBaseLocalService(
-			assignmentLocalService);
+				assignmentLocalService);
 		indexableActionableDynamicQuery.setClassLoader(getClassLoader());
 		indexableActionableDynamicQuery.setModelClass(Assignment.class);
 
 		indexableActionableDynamicQuery.setPrimaryKeyPropertyName(
-			"assignmentId");
+				"assignmentId");
 
 		return indexableActionableDynamicQuery;
 	}
 
 	protected void initActionableDynamicQuery(
-		ActionableDynamicQuery actionableDynamicQuery) {
+			ActionableDynamicQuery actionableDynamicQuery) {
 
 		actionableDynamicQuery.setBaseLocalService(assignmentLocalService);
 		actionableDynamicQuery.setClassLoader(getClassLoader());
@@ -322,101 +324,101 @@ public abstract class AssignmentLocalServiceBaseImpl
 
 	@Override
 	public ExportActionableDynamicQuery getExportActionableDynamicQuery(
-		final PortletDataContext portletDataContext) {
+			final PortletDataContext portletDataContext) {
 
 		final ExportActionableDynamicQuery exportActionableDynamicQuery =
-			new ExportActionableDynamicQuery() {
+				new ExportActionableDynamicQuery() {
 
-				@Override
-				public long performCount() throws PortalException {
-					ManifestSummary manifestSummary =
-						portletDataContext.getManifestSummary();
+					@Override
+					public long performCount() throws PortalException {
+						ManifestSummary manifestSummary =
+								portletDataContext.getManifestSummary();
 
-					StagedModelType stagedModelType = getStagedModelType();
+						StagedModelType stagedModelType = getStagedModelType();
 
-					long modelAdditionCount = super.performCount();
+						long modelAdditionCount = super.performCount();
 
-					manifestSummary.addModelAdditionCount(
-						stagedModelType, modelAdditionCount);
+						manifestSummary.addModelAdditionCount(
+								stagedModelType, modelAdditionCount);
 
-					long modelDeletionCount =
-						ExportImportHelperUtil.getModelDeletionCount(
-							portletDataContext, stagedModelType);
+						long modelDeletionCount =
+								ExportImportHelperUtil.getModelDeletionCount(
+										portletDataContext, stagedModelType);
 
-					manifestSummary.addModelDeletionCount(
-						stagedModelType, modelDeletionCount);
+						manifestSummary.addModelDeletionCount(
+								stagedModelType, modelDeletionCount);
 
-					return modelAdditionCount;
-				}
+						return modelAdditionCount;
+					}
 
-			};
+				};
 
 		initActionableDynamicQuery(exportActionableDynamicQuery);
 
 		exportActionableDynamicQuery.setAddCriteriaMethod(
-			new ActionableDynamicQuery.AddCriteriaMethod() {
+				new ActionableDynamicQuery.AddCriteriaMethod() {
 
-				@Override
-				public void addCriteria(DynamicQuery dynamicQuery) {
-					Criterion modifiedDateCriterion =
-						portletDataContext.getDateRangeCriteria("modifiedDate");
+					@Override
+					public void addCriteria(DynamicQuery dynamicQuery) {
+						Criterion modifiedDateCriterion =
+								portletDataContext.getDateRangeCriteria("modifiedDate");
 
-					Criterion statusDateCriterion =
-						portletDataContext.getDateRangeCriteria("statusDate");
+						Criterion statusDateCriterion =
+								portletDataContext.getDateRangeCriteria("statusDate");
 
-					if ((modifiedDateCriterion != null) &&
-						(statusDateCriterion != null)) {
+						if ((modifiedDateCriterion != null) &&
+								(statusDateCriterion != null)) {
 
-						Disjunction disjunction =
-							RestrictionsFactoryUtil.disjunction();
+							Disjunction disjunction =
+									RestrictionsFactoryUtil.disjunction();
 
-						disjunction.add(modifiedDateCriterion);
-						disjunction.add(statusDateCriterion);
+							disjunction.add(modifiedDateCriterion);
+							disjunction.add(statusDateCriterion);
 
-						dynamicQuery.add(disjunction);
+							dynamicQuery.add(disjunction);
+						}
+
+						Property workflowStatusProperty =
+								PropertyFactoryUtil.forName("status");
+
+						if (portletDataContext.isInitialPublication()) {
+							dynamicQuery.add(
+									workflowStatusProperty.ne(
+											WorkflowConstants.STATUS_IN_TRASH));
+						}
+						else {
+							StagedModelDataHandler<?> stagedModelDataHandler =
+									StagedModelDataHandlerRegistryUtil.
+											getStagedModelDataHandler(
+													Assignment.class.getName());
+
+							dynamicQuery.add(
+									workflowStatusProperty.in(
+											stagedModelDataHandler.
+													getExportableStatuses()));
+						}
 					}
 
-					Property workflowStatusProperty =
-						PropertyFactoryUtil.forName("status");
-
-					if (portletDataContext.isInitialPublication()) {
-						dynamicQuery.add(
-							workflowStatusProperty.ne(
-								WorkflowConstants.STATUS_IN_TRASH));
-					}
-					else {
-						StagedModelDataHandler<?> stagedModelDataHandler =
-							StagedModelDataHandlerRegistryUtil.
-								getStagedModelDataHandler(
-									Assignment.class.getName());
-
-						dynamicQuery.add(
-							workflowStatusProperty.in(
-								stagedModelDataHandler.
-									getExportableStatuses()));
-					}
-				}
-
-			});
+				});
 
 		exportActionableDynamicQuery.setCompanyId(
-			portletDataContext.getCompanyId());
+				portletDataContext.getCompanyId());
 
 		exportActionableDynamicQuery.setPerformActionMethod(
-			new ActionableDynamicQuery.PerformActionMethod<Assignment>() {
+				new ActionableDynamicQuery.PerformActionMethod<Assignment>() {
 
-				@Override
-				public void performAction(Assignment assignment)
-					throws PortalException {
+					@Override
+					public void performAction(Assignment assignment)
+							throws PortalException {
 
-					StagedModelDataHandlerUtil.exportStagedModel(
-						portletDataContext, assignment);
-				}
+						StagedModelDataHandlerUtil.exportStagedModel(
+								portletDataContext, assignment);
+					}
 
-			});
+				});
 		exportActionableDynamicQuery.setStagedModelType(
-			new StagedModelType(
-				PortalUtil.getClassNameId(Assignment.class.getName())));
+				new StagedModelType(
+						PortalUtil.getClassNameId(Assignment.class.getName())));
 
 		return exportActionableDynamicQuery;
 	}
@@ -426,7 +428,7 @@ public abstract class AssignmentLocalServiceBaseImpl
 	 */
 	@Override
 	public PersistedModel createPersistedModel(Serializable primaryKeyObj)
-		throws PortalException {
+			throws PortalException {
 
 		return assignmentPersistence.create(((Long)primaryKeyObj).longValue());
 	}
@@ -436,15 +438,15 @@ public abstract class AssignmentLocalServiceBaseImpl
 	 */
 	@Override
 	public PersistedModel deletePersistedModel(PersistedModel persistedModel)
-		throws PortalException {
+			throws PortalException {
 
 		if (_log.isWarnEnabled()) {
 			_log.warn(
-				"Implement AssignmentLocalServiceImpl#deleteAssignment(Assignment) to avoid orphaned data");
+					"Implement AssignmentLocalServiceImpl#deleteAssignment(Assignment) to avoid orphaned data");
 		}
 
 		return assignmentLocalService.deleteAssignment(
-			(Assignment)persistedModel);
+				(Assignment)persistedModel);
 	}
 
 	@Override
@@ -457,7 +459,7 @@ public abstract class AssignmentLocalServiceBaseImpl
 	 */
 	@Override
 	public PersistedModel getPersistedModel(Serializable primaryKeyObj)
-		throws PortalException {
+			throws PortalException {
 
 		return assignmentPersistence.findByPrimaryKey(primaryKeyObj);
 	}
@@ -471,7 +473,7 @@ public abstract class AssignmentLocalServiceBaseImpl
 	 */
 	@Override
 	public List<Assignment> getAssignmentsByUuidAndCompanyId(
-		String uuid, long companyId) {
+			String uuid, long companyId) {
 
 		return assignmentPersistence.findByUuid_C(uuid, companyId);
 	}
@@ -488,11 +490,11 @@ public abstract class AssignmentLocalServiceBaseImpl
 	 */
 	@Override
 	public List<Assignment> getAssignmentsByUuidAndCompanyId(
-		String uuid, long companyId, int start, int end,
-		OrderByComparator<Assignment> orderByComparator) {
+			String uuid, long companyId, int start, int end,
+			OrderByComparator<Assignment> orderByComparator) {
 
 		return assignmentPersistence.findByUuid_C(
-			uuid, companyId, start, end, orderByComparator);
+				uuid, companyId, start, end, orderByComparator);
 	}
 
 	/**
@@ -505,7 +507,7 @@ public abstract class AssignmentLocalServiceBaseImpl
 	 */
 	@Override
 	public Assignment getAssignmentByUuidAndGroupId(String uuid, long groupId)
-		throws PortalException {
+			throws PortalException {
 
 		return assignmentPersistence.findByUUID_G(uuid, groupId);
 	}
@@ -567,7 +569,7 @@ public abstract class AssignmentLocalServiceBaseImpl
 	 * @param assignmentLocalService the assignment local service
 	 */
 	public void setAssignmentLocalService(
-		AssignmentLocalService assignmentLocalService) {
+			AssignmentLocalService assignmentLocalService) {
 
 		this.assignmentLocalService = assignmentLocalService;
 	}
@@ -587,7 +589,7 @@ public abstract class AssignmentLocalServiceBaseImpl
 	 * @param assignmentPersistence the assignment persistence
 	 */
 	public void setAssignmentPersistence(
-		AssignmentPersistence assignmentPersistence) {
+			AssignmentPersistence assignmentPersistence) {
 
 		this.assignmentPersistence = assignmentPersistence;
 	}
@@ -598,7 +600,7 @@ public abstract class AssignmentLocalServiceBaseImpl
 	 * @return the submission local service
 	 */
 	public com.liferay.training.space.gradebook.service.SubmissionLocalService
-		getSubmissionLocalService() {
+	getSubmissionLocalService() {
 
 		return submissionLocalService;
 	}
@@ -609,8 +611,8 @@ public abstract class AssignmentLocalServiceBaseImpl
 	 * @param submissionLocalService the submission local service
 	 */
 	public void setSubmissionLocalService(
-		com.liferay.training.space.gradebook.service.SubmissionLocalService
-			submissionLocalService) {
+			com.liferay.training.space.gradebook.service.SubmissionLocalService
+					submissionLocalService) {
 
 		this.submissionLocalService = submissionLocalService;
 	}
@@ -630,7 +632,7 @@ public abstract class AssignmentLocalServiceBaseImpl
 	 * @param submissionPersistence the submission persistence
 	 */
 	public void setSubmissionPersistence(
-		SubmissionPersistence submissionPersistence) {
+			SubmissionPersistence submissionPersistence) {
 
 		this.submissionPersistence = submissionPersistence;
 	}
@@ -641,7 +643,7 @@ public abstract class AssignmentLocalServiceBaseImpl
 	 * @return the counter local service
 	 */
 	public com.liferay.counter.kernel.service.CounterLocalService
-		getCounterLocalService() {
+	getCounterLocalService() {
 
 		return counterLocalService;
 	}
@@ -652,8 +654,8 @@ public abstract class AssignmentLocalServiceBaseImpl
 	 * @param counterLocalService the counter local service
 	 */
 	public void setCounterLocalService(
-		com.liferay.counter.kernel.service.CounterLocalService
-			counterLocalService) {
+			com.liferay.counter.kernel.service.CounterLocalService
+					counterLocalService) {
 
 		this.counterLocalService = counterLocalService;
 	}
@@ -664,7 +666,7 @@ public abstract class AssignmentLocalServiceBaseImpl
 	 * @return the class name local service
 	 */
 	public com.liferay.portal.kernel.service.ClassNameLocalService
-		getClassNameLocalService() {
+	getClassNameLocalService() {
 
 		return classNameLocalService;
 	}
@@ -675,8 +677,8 @@ public abstract class AssignmentLocalServiceBaseImpl
 	 * @param classNameLocalService the class name local service
 	 */
 	public void setClassNameLocalService(
-		com.liferay.portal.kernel.service.ClassNameLocalService
-			classNameLocalService) {
+			com.liferay.portal.kernel.service.ClassNameLocalService
+					classNameLocalService) {
 
 		this.classNameLocalService = classNameLocalService;
 	}
@@ -696,7 +698,7 @@ public abstract class AssignmentLocalServiceBaseImpl
 	 * @param classNamePersistence the class name persistence
 	 */
 	public void setClassNamePersistence(
-		ClassNamePersistence classNamePersistence) {
+			ClassNamePersistence classNamePersistence) {
 
 		this.classNamePersistence = classNamePersistence;
 	}
@@ -707,7 +709,7 @@ public abstract class AssignmentLocalServiceBaseImpl
 	 * @return the resource local service
 	 */
 	public com.liferay.portal.kernel.service.ResourceLocalService
-		getResourceLocalService() {
+	getResourceLocalService() {
 
 		return resourceLocalService;
 	}
@@ -718,8 +720,8 @@ public abstract class AssignmentLocalServiceBaseImpl
 	 * @param resourceLocalService the resource local service
 	 */
 	public void setResourceLocalService(
-		com.liferay.portal.kernel.service.ResourceLocalService
-			resourceLocalService) {
+			com.liferay.portal.kernel.service.ResourceLocalService
+					resourceLocalService) {
 
 		this.resourceLocalService = resourceLocalService;
 	}
@@ -730,7 +732,7 @@ public abstract class AssignmentLocalServiceBaseImpl
 	 * @return the user local service
 	 */
 	public com.liferay.portal.kernel.service.UserLocalService
-		getUserLocalService() {
+	getUserLocalService() {
 
 		return userLocalService;
 	}
@@ -741,7 +743,7 @@ public abstract class AssignmentLocalServiceBaseImpl
 	 * @param userLocalService the user local service
 	 */
 	public void setUserLocalService(
-		com.liferay.portal.kernel.service.UserLocalService userLocalService) {
+			com.liferay.portal.kernel.service.UserLocalService userLocalService) {
 
 		this.userLocalService = userLocalService;
 	}
@@ -770,7 +772,7 @@ public abstract class AssignmentLocalServiceBaseImpl
 	 * @return the asset entry local service
 	 */
 	public com.liferay.asset.kernel.service.AssetEntryLocalService
-		getAssetEntryLocalService() {
+	getAssetEntryLocalService() {
 
 		return assetEntryLocalService;
 	}
@@ -781,8 +783,8 @@ public abstract class AssignmentLocalServiceBaseImpl
 	 * @param assetEntryLocalService the asset entry local service
 	 */
 	public void setAssetEntryLocalService(
-		com.liferay.asset.kernel.service.AssetEntryLocalService
-			assetEntryLocalService) {
+			com.liferay.asset.kernel.service.AssetEntryLocalService
+					assetEntryLocalService) {
 
 		this.assetEntryLocalService = assetEntryLocalService;
 	}
@@ -802,7 +804,7 @@ public abstract class AssignmentLocalServiceBaseImpl
 	 * @param assetEntryPersistence the asset entry persistence
 	 */
 	public void setAssetEntryPersistence(
-		AssetEntryPersistence assetEntryPersistence) {
+			AssetEntryPersistence assetEntryPersistence) {
 
 		this.assetEntryPersistence = assetEntryPersistence;
 	}
@@ -812,8 +814,8 @@ public abstract class AssignmentLocalServiceBaseImpl
 	 *
 	 * @return the asset link local service
 	 */
-	public com.liferay.asset.kernel.service.AssetLinkLocalService
-		getAssetLinkLocalService() {
+	public com.liferay.asset.link.service.AssetLinkLocalService
+	getAssetLinkLocalService() {
 
 		return assetLinkLocalService;
 	}
@@ -824,8 +826,8 @@ public abstract class AssignmentLocalServiceBaseImpl
 	 * @param assetLinkLocalService the asset link local service
 	 */
 	public void setAssetLinkLocalService(
-		com.liferay.asset.kernel.service.AssetLinkLocalService
-			assetLinkLocalService) {
+			com.liferay.asset.link.service.AssetLinkLocalService
+					assetLinkLocalService) {
 
 		this.assetLinkLocalService = assetLinkLocalService;
 	}
@@ -845,7 +847,7 @@ public abstract class AssignmentLocalServiceBaseImpl
 	 * @param assetLinkPersistence the asset link persistence
 	 */
 	public void setAssetLinkPersistence(
-		AssetLinkPersistence assetLinkPersistence) {
+			AssetLinkPersistence assetLinkPersistence) {
 
 		this.assetLinkPersistence = assetLinkPersistence;
 	}
@@ -856,7 +858,7 @@ public abstract class AssignmentLocalServiceBaseImpl
 	 * @return the asset tag local service
 	 */
 	public com.liferay.asset.kernel.service.AssetTagLocalService
-		getAssetTagLocalService() {
+	getAssetTagLocalService() {
 
 		return assetTagLocalService;
 	}
@@ -867,8 +869,8 @@ public abstract class AssignmentLocalServiceBaseImpl
 	 * @param assetTagLocalService the asset tag local service
 	 */
 	public void setAssetTagLocalService(
-		com.liferay.asset.kernel.service.AssetTagLocalService
-			assetTagLocalService) {
+			com.liferay.asset.kernel.service.AssetTagLocalService
+					assetTagLocalService) {
 
 		this.assetTagLocalService = assetTagLocalService;
 	}
@@ -888,7 +890,7 @@ public abstract class AssignmentLocalServiceBaseImpl
 	 * @param assetTagPersistence the asset tag persistence
 	 */
 	public void setAssetTagPersistence(
-		AssetTagPersistence assetTagPersistence) {
+			AssetTagPersistence assetTagPersistence) {
 
 		this.assetTagPersistence = assetTagPersistence;
 	}
@@ -934,7 +936,7 @@ public abstract class AssignmentLocalServiceBaseImpl
 			sql = PortalUtil.transformSQL(sql);
 
 			SqlUpdate sqlUpdate = SqlUpdateFactoryUtil.getSqlUpdate(
-				dataSource, sql);
+					dataSource, sql);
 
 			sqlUpdate.update();
 		}
@@ -950,73 +952,73 @@ public abstract class AssignmentLocalServiceBaseImpl
 	protected AssignmentPersistence assignmentPersistence;
 
 	@BeanReference(
-		type = com.liferay.training.space.gradebook.service.SubmissionLocalService.class
+			type = com.liferay.training.space.gradebook.service.SubmissionLocalService.class
 	)
 	protected
-		com.liferay.training.space.gradebook.service.SubmissionLocalService
+	com.liferay.training.space.gradebook.service.SubmissionLocalService
 			submissionLocalService;
 
 	@BeanReference(type = SubmissionPersistence.class)
 	protected SubmissionPersistence submissionPersistence;
 
 	@ServiceReference(
-		type = com.liferay.counter.kernel.service.CounterLocalService.class
+			type = com.liferay.counter.kernel.service.CounterLocalService.class
 	)
 	protected com.liferay.counter.kernel.service.CounterLocalService
-		counterLocalService;
+			counterLocalService;
 
 	@ServiceReference(
-		type = com.liferay.portal.kernel.service.ClassNameLocalService.class
+			type = com.liferay.portal.kernel.service.ClassNameLocalService.class
 	)
 	protected com.liferay.portal.kernel.service.ClassNameLocalService
-		classNameLocalService;
+			classNameLocalService;
 
 	@ServiceReference(type = ClassNamePersistence.class)
 	protected ClassNamePersistence classNamePersistence;
 
 	@ServiceReference(
-		type = com.liferay.portal.kernel.service.ResourceLocalService.class
+			type = com.liferay.portal.kernel.service.ResourceLocalService.class
 	)
 	protected com.liferay.portal.kernel.service.ResourceLocalService
-		resourceLocalService;
+			resourceLocalService;
 
 	@ServiceReference(
-		type = com.liferay.portal.kernel.service.UserLocalService.class
+			type = com.liferay.portal.kernel.service.UserLocalService.class
 	)
 	protected com.liferay.portal.kernel.service.UserLocalService
-		userLocalService;
+			userLocalService;
 
 	@ServiceReference(type = UserPersistence.class)
 	protected UserPersistence userPersistence;
 
 	@ServiceReference(
-		type = com.liferay.asset.kernel.service.AssetEntryLocalService.class
+			type = com.liferay.asset.kernel.service.AssetEntryLocalService.class
 	)
 	protected com.liferay.asset.kernel.service.AssetEntryLocalService
-		assetEntryLocalService;
+			assetEntryLocalService;
 
 	@ServiceReference(type = AssetEntryPersistence.class)
 	protected AssetEntryPersistence assetEntryPersistence;
 
 	@ServiceReference(
-		type = com.liferay.asset.kernel.service.AssetLinkLocalService.class
+			type = com.liferay.asset.link.service.AssetLinkLocalService.class
 	)
-	protected com.liferay.asset.kernel.service.AssetLinkLocalService
-		assetLinkLocalService;
+	protected AssetLinkLocalService
+			assetLinkLocalService;
 
 	@ServiceReference(type = AssetLinkPersistence.class)
 	protected AssetLinkPersistence assetLinkPersistence;
 
 	@ServiceReference(
-		type = com.liferay.asset.kernel.service.AssetTagLocalService.class
+			type = com.liferay.asset.kernel.service.AssetTagLocalService.class
 	)
 	protected com.liferay.asset.kernel.service.AssetTagLocalService
-		assetTagLocalService;
+			assetTagLocalService;
 
 	@ServiceReference(type = AssetTagPersistence.class)
 	protected AssetTagPersistence assetTagPersistence;
 
 	private static final Log _log = LogFactoryUtil.getLog(
-		AssignmentLocalServiceBaseImpl.class);
+			AssignmentLocalServiceBaseImpl.class);
 
 }

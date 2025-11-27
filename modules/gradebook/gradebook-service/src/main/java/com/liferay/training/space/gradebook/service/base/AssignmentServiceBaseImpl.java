@@ -6,7 +6,7 @@
 package com.liferay.training.space.gradebook.service.base;
 
 import com.liferay.asset.kernel.service.persistence.AssetEntryPersistence;
-import com.liferay.asset.kernel.service.persistence.AssetLinkPersistence;
+import com.liferay.asset.link.service.persistence.AssetLinkPersistence;
 import com.liferay.asset.kernel.service.persistence.AssetTagPersistence;
 import com.liferay.portal.kernel.bean.BeanReference;
 import com.liferay.portal.kernel.dao.db.DB;
@@ -42,8 +42,8 @@ import javax.sql.DataSource;
  * @generated
  */
 public abstract class AssignmentServiceBaseImpl
-	extends BaseServiceImpl
-	implements AssignmentService, IdentifiableOSGiService {
+		extends BaseServiceImpl
+		implements AssignmentService, IdentifiableOSGiService {
 
 	/*
 	 * NOTE FOR DEVELOPERS:
@@ -57,7 +57,7 @@ public abstract class AssignmentServiceBaseImpl
 	 * @return the assignment local service
 	 */
 	public com.liferay.training.space.gradebook.service.AssignmentLocalService
-		getAssignmentLocalService() {
+	getAssignmentLocalService() {
 
 		return assignmentLocalService;
 	}
@@ -68,8 +68,8 @@ public abstract class AssignmentServiceBaseImpl
 	 * @param assignmentLocalService the assignment local service
 	 */
 	public void setAssignmentLocalService(
-		com.liferay.training.space.gradebook.service.AssignmentLocalService
-			assignmentLocalService) {
+			com.liferay.training.space.gradebook.service.AssignmentLocalService
+					assignmentLocalService) {
 
 		this.assignmentLocalService = assignmentLocalService;
 	}
@@ -107,7 +107,7 @@ public abstract class AssignmentServiceBaseImpl
 	 * @param assignmentPersistence the assignment persistence
 	 */
 	public void setAssignmentPersistence(
-		AssignmentPersistence assignmentPersistence) {
+			AssignmentPersistence assignmentPersistence) {
 
 		this.assignmentPersistence = assignmentPersistence;
 	}
@@ -118,7 +118,7 @@ public abstract class AssignmentServiceBaseImpl
 	 * @return the submission local service
 	 */
 	public com.liferay.training.space.gradebook.service.SubmissionLocalService
-		getSubmissionLocalService() {
+	getSubmissionLocalService() {
 
 		return submissionLocalService;
 	}
@@ -129,8 +129,8 @@ public abstract class AssignmentServiceBaseImpl
 	 * @param submissionLocalService the submission local service
 	 */
 	public void setSubmissionLocalService(
-		com.liferay.training.space.gradebook.service.SubmissionLocalService
-			submissionLocalService) {
+			com.liferay.training.space.gradebook.service.SubmissionLocalService
+					submissionLocalService) {
 
 		this.submissionLocalService = submissionLocalService;
 	}
@@ -141,7 +141,7 @@ public abstract class AssignmentServiceBaseImpl
 	 * @return the submission remote service
 	 */
 	public com.liferay.training.space.gradebook.service.SubmissionService
-		getSubmissionService() {
+	getSubmissionService() {
 
 		return submissionService;
 	}
@@ -152,8 +152,8 @@ public abstract class AssignmentServiceBaseImpl
 	 * @param submissionService the submission remote service
 	 */
 	public void setSubmissionService(
-		com.liferay.training.space.gradebook.service.SubmissionService
-			submissionService) {
+			com.liferay.training.space.gradebook.service.SubmissionService
+					submissionService) {
 
 		this.submissionService = submissionService;
 	}
@@ -173,7 +173,7 @@ public abstract class AssignmentServiceBaseImpl
 	 * @param submissionPersistence the submission persistence
 	 */
 	public void setSubmissionPersistence(
-		SubmissionPersistence submissionPersistence) {
+			SubmissionPersistence submissionPersistence) {
 
 		this.submissionPersistence = submissionPersistence;
 	}
@@ -184,7 +184,7 @@ public abstract class AssignmentServiceBaseImpl
 	 * @return the counter local service
 	 */
 	public com.liferay.counter.kernel.service.CounterLocalService
-		getCounterLocalService() {
+	getCounterLocalService() {
 
 		return counterLocalService;
 	}
@@ -195,8 +195,8 @@ public abstract class AssignmentServiceBaseImpl
 	 * @param counterLocalService the counter local service
 	 */
 	public void setCounterLocalService(
-		com.liferay.counter.kernel.service.CounterLocalService
-			counterLocalService) {
+			com.liferay.counter.kernel.service.CounterLocalService
+					counterLocalService) {
 
 		this.counterLocalService = counterLocalService;
 	}
@@ -207,7 +207,7 @@ public abstract class AssignmentServiceBaseImpl
 	 * @return the class name local service
 	 */
 	public com.liferay.portal.kernel.service.ClassNameLocalService
-		getClassNameLocalService() {
+	getClassNameLocalService() {
 
 		return classNameLocalService;
 	}
@@ -218,8 +218,8 @@ public abstract class AssignmentServiceBaseImpl
 	 * @param classNameLocalService the class name local service
 	 */
 	public void setClassNameLocalService(
-		com.liferay.portal.kernel.service.ClassNameLocalService
-			classNameLocalService) {
+			com.liferay.portal.kernel.service.ClassNameLocalService
+					classNameLocalService) {
 
 		this.classNameLocalService = classNameLocalService;
 	}
@@ -230,7 +230,7 @@ public abstract class AssignmentServiceBaseImpl
 	 * @return the class name remote service
 	 */
 	public com.liferay.portal.kernel.service.ClassNameService
-		getClassNameService() {
+	getClassNameService() {
 
 		return classNameService;
 	}
@@ -241,7 +241,7 @@ public abstract class AssignmentServiceBaseImpl
 	 * @param classNameService the class name remote service
 	 */
 	public void setClassNameService(
-		com.liferay.portal.kernel.service.ClassNameService classNameService) {
+			com.liferay.portal.kernel.service.ClassNameService classNameService) {
 
 		this.classNameService = classNameService;
 	}
@@ -261,7 +261,7 @@ public abstract class AssignmentServiceBaseImpl
 	 * @param classNamePersistence the class name persistence
 	 */
 	public void setClassNamePersistence(
-		ClassNamePersistence classNamePersistence) {
+			ClassNamePersistence classNamePersistence) {
 
 		this.classNamePersistence = classNamePersistence;
 	}
@@ -272,7 +272,7 @@ public abstract class AssignmentServiceBaseImpl
 	 * @return the resource local service
 	 */
 	public com.liferay.portal.kernel.service.ResourceLocalService
-		getResourceLocalService() {
+	getResourceLocalService() {
 
 		return resourceLocalService;
 	}
@@ -283,8 +283,8 @@ public abstract class AssignmentServiceBaseImpl
 	 * @param resourceLocalService the resource local service
 	 */
 	public void setResourceLocalService(
-		com.liferay.portal.kernel.service.ResourceLocalService
-			resourceLocalService) {
+			com.liferay.portal.kernel.service.ResourceLocalService
+					resourceLocalService) {
 
 		this.resourceLocalService = resourceLocalService;
 	}
@@ -295,7 +295,7 @@ public abstract class AssignmentServiceBaseImpl
 	 * @return the user local service
 	 */
 	public com.liferay.portal.kernel.service.UserLocalService
-		getUserLocalService() {
+	getUserLocalService() {
 
 		return userLocalService;
 	}
@@ -306,7 +306,7 @@ public abstract class AssignmentServiceBaseImpl
 	 * @param userLocalService the user local service
 	 */
 	public void setUserLocalService(
-		com.liferay.portal.kernel.service.UserLocalService userLocalService) {
+			com.liferay.portal.kernel.service.UserLocalService userLocalService) {
 
 		this.userLocalService = userLocalService;
 	}
@@ -326,7 +326,7 @@ public abstract class AssignmentServiceBaseImpl
 	 * @param userService the user remote service
 	 */
 	public void setUserService(
-		com.liferay.portal.kernel.service.UserService userService) {
+			com.liferay.portal.kernel.service.UserService userService) {
 
 		this.userService = userService;
 	}
@@ -355,7 +355,7 @@ public abstract class AssignmentServiceBaseImpl
 	 * @return the asset entry local service
 	 */
 	public com.liferay.asset.kernel.service.AssetEntryLocalService
-		getAssetEntryLocalService() {
+	getAssetEntryLocalService() {
 
 		return assetEntryLocalService;
 	}
@@ -366,8 +366,8 @@ public abstract class AssignmentServiceBaseImpl
 	 * @param assetEntryLocalService the asset entry local service
 	 */
 	public void setAssetEntryLocalService(
-		com.liferay.asset.kernel.service.AssetEntryLocalService
-			assetEntryLocalService) {
+			com.liferay.asset.kernel.service.AssetEntryLocalService
+					assetEntryLocalService) {
 
 		this.assetEntryLocalService = assetEntryLocalService;
 	}
@@ -378,7 +378,7 @@ public abstract class AssignmentServiceBaseImpl
 	 * @return the asset entry remote service
 	 */
 	public com.liferay.asset.kernel.service.AssetEntryService
-		getAssetEntryService() {
+	getAssetEntryService() {
 
 		return assetEntryService;
 	}
@@ -389,7 +389,7 @@ public abstract class AssignmentServiceBaseImpl
 	 * @param assetEntryService the asset entry remote service
 	 */
 	public void setAssetEntryService(
-		com.liferay.asset.kernel.service.AssetEntryService assetEntryService) {
+			com.liferay.asset.kernel.service.AssetEntryService assetEntryService) {
 
 		this.assetEntryService = assetEntryService;
 	}
@@ -409,7 +409,7 @@ public abstract class AssignmentServiceBaseImpl
 	 * @param assetEntryPersistence the asset entry persistence
 	 */
 	public void setAssetEntryPersistence(
-		AssetEntryPersistence assetEntryPersistence) {
+			AssetEntryPersistence assetEntryPersistence) {
 
 		this.assetEntryPersistence = assetEntryPersistence;
 	}
@@ -419,8 +419,8 @@ public abstract class AssignmentServiceBaseImpl
 	 *
 	 * @return the asset link local service
 	 */
-	public com.liferay.asset.kernel.service.AssetLinkLocalService
-		getAssetLinkLocalService() {
+	public com.liferay.asset.link.service.AssetLinkLocalService
+	getAssetLinkLocalService() {
 
 		return assetLinkLocalService;
 	}
@@ -431,8 +431,8 @@ public abstract class AssignmentServiceBaseImpl
 	 * @param assetLinkLocalService the asset link local service
 	 */
 	public void setAssetLinkLocalService(
-		com.liferay.asset.kernel.service.AssetLinkLocalService
-			assetLinkLocalService) {
+			com.liferay.asset.link.service.AssetLinkLocalService
+					assetLinkLocalService) {
 
 		this.assetLinkLocalService = assetLinkLocalService;
 	}
@@ -452,7 +452,7 @@ public abstract class AssignmentServiceBaseImpl
 	 * @param assetLinkPersistence the asset link persistence
 	 */
 	public void setAssetLinkPersistence(
-		AssetLinkPersistence assetLinkPersistence) {
+			AssetLinkPersistence assetLinkPersistence) {
 
 		this.assetLinkPersistence = assetLinkPersistence;
 	}
@@ -463,7 +463,7 @@ public abstract class AssignmentServiceBaseImpl
 	 * @return the asset tag local service
 	 */
 	public com.liferay.asset.kernel.service.AssetTagLocalService
-		getAssetTagLocalService() {
+	getAssetTagLocalService() {
 
 		return assetTagLocalService;
 	}
@@ -474,8 +474,8 @@ public abstract class AssignmentServiceBaseImpl
 	 * @param assetTagLocalService the asset tag local service
 	 */
 	public void setAssetTagLocalService(
-		com.liferay.asset.kernel.service.AssetTagLocalService
-			assetTagLocalService) {
+			com.liferay.asset.kernel.service.AssetTagLocalService
+					assetTagLocalService) {
 
 		this.assetTagLocalService = assetTagLocalService;
 	}
@@ -486,7 +486,7 @@ public abstract class AssignmentServiceBaseImpl
 	 * @return the asset tag remote service
 	 */
 	public com.liferay.asset.kernel.service.AssetTagService
-		getAssetTagService() {
+	getAssetTagService() {
 
 		return assetTagService;
 	}
@@ -497,7 +497,7 @@ public abstract class AssignmentServiceBaseImpl
 	 * @param assetTagService the asset tag remote service
 	 */
 	public void setAssetTagService(
-		com.liferay.asset.kernel.service.AssetTagService assetTagService) {
+			com.liferay.asset.kernel.service.AssetTagService assetTagService) {
 
 		this.assetTagService = assetTagService;
 	}
@@ -517,7 +517,7 @@ public abstract class AssignmentServiceBaseImpl
 	 * @param assetTagPersistence the asset tag persistence
 	 */
 	public void setAssetTagPersistence(
-		AssetTagPersistence assetTagPersistence) {
+			AssetTagPersistence assetTagPersistence) {
 
 		this.assetTagPersistence = assetTagPersistence;
 	}
@@ -563,7 +563,7 @@ public abstract class AssignmentServiceBaseImpl
 			sql = PortalUtil.transformSQL(sql);
 
 			SqlUpdate sqlUpdate = SqlUpdateFactoryUtil.getSqlUpdate(
-				dataSource, sql);
+					dataSource, sql);
 
 			sqlUpdate.update();
 		}
@@ -573,10 +573,10 @@ public abstract class AssignmentServiceBaseImpl
 	}
 
 	@BeanReference(
-		type = com.liferay.training.space.gradebook.service.AssignmentLocalService.class
+			type = com.liferay.training.space.gradebook.service.AssignmentLocalService.class
 	)
 	protected
-		com.liferay.training.space.gradebook.service.AssignmentLocalService
+	com.liferay.training.space.gradebook.service.AssignmentLocalService
 			assignmentLocalService;
 
 	@BeanReference(type = AssignmentService.class)
@@ -586,56 +586,56 @@ public abstract class AssignmentServiceBaseImpl
 	protected AssignmentPersistence assignmentPersistence;
 
 	@BeanReference(
-		type = com.liferay.training.space.gradebook.service.SubmissionLocalService.class
+			type = com.liferay.training.space.gradebook.service.SubmissionLocalService.class
 	)
 	protected
-		com.liferay.training.space.gradebook.service.SubmissionLocalService
+	com.liferay.training.space.gradebook.service.SubmissionLocalService
 			submissionLocalService;
 
 	@BeanReference(
-		type = com.liferay.training.space.gradebook.service.SubmissionService.class
+			type = com.liferay.training.space.gradebook.service.SubmissionService.class
 	)
 	protected com.liferay.training.space.gradebook.service.SubmissionService
-		submissionService;
+			submissionService;
 
 	@BeanReference(type = SubmissionPersistence.class)
 	protected SubmissionPersistence submissionPersistence;
 
 	@ServiceReference(
-		type = com.liferay.counter.kernel.service.CounterLocalService.class
+			type = com.liferay.counter.kernel.service.CounterLocalService.class
 	)
 	protected com.liferay.counter.kernel.service.CounterLocalService
-		counterLocalService;
+			counterLocalService;
 
 	@ServiceReference(
-		type = com.liferay.portal.kernel.service.ClassNameLocalService.class
+			type = com.liferay.portal.kernel.service.ClassNameLocalService.class
 	)
 	protected com.liferay.portal.kernel.service.ClassNameLocalService
-		classNameLocalService;
+			classNameLocalService;
 
 	@ServiceReference(
-		type = com.liferay.portal.kernel.service.ClassNameService.class
+			type = com.liferay.portal.kernel.service.ClassNameService.class
 	)
 	protected com.liferay.portal.kernel.service.ClassNameService
-		classNameService;
+			classNameService;
 
 	@ServiceReference(type = ClassNamePersistence.class)
 	protected ClassNamePersistence classNamePersistence;
 
 	@ServiceReference(
-		type = com.liferay.portal.kernel.service.ResourceLocalService.class
+			type = com.liferay.portal.kernel.service.ResourceLocalService.class
 	)
 	protected com.liferay.portal.kernel.service.ResourceLocalService
-		resourceLocalService;
+			resourceLocalService;
 
 	@ServiceReference(
-		type = com.liferay.portal.kernel.service.UserLocalService.class
+			type = com.liferay.portal.kernel.service.UserLocalService.class
 	)
 	protected com.liferay.portal.kernel.service.UserLocalService
-		userLocalService;
+			userLocalService;
 
 	@ServiceReference(
-		type = com.liferay.portal.kernel.service.UserService.class
+			type = com.liferay.portal.kernel.service.UserService.class
 	)
 	protected com.liferay.portal.kernel.service.UserService userService;
 
@@ -643,37 +643,37 @@ public abstract class AssignmentServiceBaseImpl
 	protected UserPersistence userPersistence;
 
 	@ServiceReference(
-		type = com.liferay.asset.kernel.service.AssetEntryLocalService.class
+			type = com.liferay.asset.kernel.service.AssetEntryLocalService.class
 	)
 	protected com.liferay.asset.kernel.service.AssetEntryLocalService
-		assetEntryLocalService;
+			assetEntryLocalService;
 
 	@ServiceReference(
-		type = com.liferay.asset.kernel.service.AssetEntryService.class
+			type = com.liferay.asset.kernel.service.AssetEntryService.class
 	)
 	protected com.liferay.asset.kernel.service.AssetEntryService
-		assetEntryService;
+			assetEntryService;
 
 	@ServiceReference(type = AssetEntryPersistence.class)
 	protected AssetEntryPersistence assetEntryPersistence;
 
 	@ServiceReference(
-		type = com.liferay.asset.kernel.service.AssetLinkLocalService.class
+			type = com.liferay.asset.link.service.AssetLinkLocalService.class
 	)
-	protected com.liferay.asset.kernel.service.AssetLinkLocalService
-		assetLinkLocalService;
+	protected com.liferay.asset.link.service.AssetLinkLocalService
+			assetLinkLocalService;
 
 	@ServiceReference(type = AssetLinkPersistence.class)
 	protected AssetLinkPersistence assetLinkPersistence;
 
 	@ServiceReference(
-		type = com.liferay.asset.kernel.service.AssetTagLocalService.class
+			type = com.liferay.asset.kernel.service.AssetTagLocalService.class
 	)
 	protected com.liferay.asset.kernel.service.AssetTagLocalService
-		assetTagLocalService;
+			assetTagLocalService;
 
 	@ServiceReference(
-		type = com.liferay.asset.kernel.service.AssetTagService.class
+			type = com.liferay.asset.kernel.service.AssetTagService.class
 	)
 	protected com.liferay.asset.kernel.service.AssetTagService assetTagService;
 
@@ -681,6 +681,6 @@ public abstract class AssignmentServiceBaseImpl
 	protected AssetTagPersistence assetTagPersistence;
 
 	private static final Log _log = LogFactoryUtil.getLog(
-		AssignmentServiceBaseImpl.class);
+			AssignmentServiceBaseImpl.class);
 
 }
