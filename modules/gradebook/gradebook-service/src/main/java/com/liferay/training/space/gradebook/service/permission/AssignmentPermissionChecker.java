@@ -1,116 +1,90 @@
 package com.liferay.training.space.gradebook.service.permission;
 
-import com.liferay.portal.kernel.exception.PortalException;
-import com.liferay.portal.kernel.model.Layout;
-import com.liferay.portal.kernel.model.impl.VirtualLayout;
+
 import com.liferay.portal.kernel.security.auth.PrincipalException;
+import com.liferay.portal.kernel.security.permission.resource.ModelResourcePermission;
+import com.liferay.portal.kernel.security.permission.resource.PortletResourcePermission;
+import com.liferay.training.space.gradebook.service.AssignmentLocalService;
+import org.osgi.service.component.annotations.Component;
+import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.security.permission.PermissionChecker;
-import com.liferay.portal.kernel.service.LayoutLocalServiceUtil;
-import com.liferay.portal.kernel.service.permission.PortletPermissionUtil;
 import com.liferay.training.space.gradebook.model.Assignment;
-import com.liferay.training.space.gradebook.service.AssignmentLocalServiceUtil;
+import org.osgi.service.component.annotations.Reference;
+import java.util.Objects;
 
-public class AssignmentPermissionChecker  {
+@Component(property = "model.class.name=com.liferay.training.space.gradebook.model.Assignment",
+           service = ModelResourcePermission.class)
+public class AssignmentPermissionChecker implements ModelResourcePermission<Assignment> {
 
-	public static final String ADD_ASSIGNMENT = "ADD_ASSIGNMENT";
+    private static final String RESOURCE_NAME = Assignment.class.getName();
 
-	public static void check(
-			PermissionChecker permissionChecker, Assignment entry,
-			String actionId)
-			throws PortalException {
+    private static final String TOP_LEVEL_RESOURCE = "com.liferay.training.space.gradebook";
 
-		if (!contains(permissionChecker, entry, actionId)) {
-			throw new PrincipalException.MustHavePermission(
-					permissionChecker, Assignment.class.getName(),
-					entry.getAssignmentId(), actionId);
-		}
-	}
+    public static final String ADD_ASSIGNMENT = "ADD_ASSIGNMENT";
 
-	public static void check(
-			PermissionChecker permissionChecker, Layout layout, String name,
-			String actionId)
-			throws PortalException {
+    @Reference
+    private AssignmentLocalService assignmentLocalService;
 
-		if (!contains(permissionChecker, layout, name, actionId)) {
-			throw new PrincipalException.MustHavePermission(
-					permissionChecker, Assignment.class.getName(), name,
-					actionId);
-		}
-	}
+    @Reference(target = "(resource.name=" + "com.liferay.training.space.gradebook" + ")")
+    private PortletResourcePermission portletResourcePermission;
 
-	public static void check(
-			PermissionChecker permissionChecker, long entryId, String actionId)
-			throws PortalException {
 
-		if (!contains(permissionChecker, entryId, actionId)) {
-			throw new PrincipalException.MustHavePermission(
-					permissionChecker, Assignment.class.getName(), entryId,
-					actionId);
-		}
-	}
+    @Override
+    public void check(PermissionChecker permissionChecker, long assignmentId, String actionId) throws PortalException {
+        Assignment assignment = assignmentLocalService.getAssignment(assignmentId);
+        long groupId = assignment.getGroupId();
+        if (!contains(permissionChecker, groupId, assignmentId, actionId)) {
+            throw new PrincipalException.MustHavePermission(
+                    permissionChecker, Assignment.class.getName(), assignmentId, actionId);
+        }
+    }
 
-	public static void check(
-			PermissionChecker permissionChecker, long plid, String portletId,
-			String actionId)
-			throws PortalException {
+    @Override
+    public void check(PermissionChecker permissionChecker, Assignment model, String actionId) throws PortalException {
+        if (Objects.nonNull(model)) {
+            long assignmentId = model.getAssignmentId();
+            long groupId = model.getGroupId();
+            if (!contains(permissionChecker, groupId, assignmentId, actionId)) {
+                throw new PrincipalException.MustHavePermission(
+                        permissionChecker, Assignment.class.getName(), assignmentId, actionId);
+            }
+        }
+        throw new NullPointerException();
+    }
 
-		if (!contains(permissionChecker, plid, portletId, actionId)) {
-			throw new PrincipalException.MustHavePermission(
-					permissionChecker, Assignment.class.getName(),
-					portletId, actionId);
-		}
-	}
+    @Override
+    public boolean contains(PermissionChecker permissionChecker, long assignmentId, String actionId) throws PortalException {
+        Assignment assignment = assignmentLocalService.getAssignment(assignmentId);
+        long groupId = assignment.getGroupId();
+        return contains(permissionChecker, groupId, assignmentId, actionId);
+    }
 
-	public static boolean contains(
-			PermissionChecker permissionChecker, Assignment entry,
-			String actionId)
-			throws PortalException {
+    @Override
+    public boolean contains(PermissionChecker permissionChecker, Assignment model, String actionId) throws PortalException {
+        if (Objects.nonNull(model)) {
+            long assignmentId = model.getAssignmentId();
+            long groupId = model.getGroupId();
+            return contains(permissionChecker, groupId, assignmentId, actionId);
+        }
+        return false;
+    }
 
-		if (permissionChecker.hasOwnerPermission(
-				entry.getCompanyId(), Assignment.class.getName(),
-				entry.getAssignmentId(), entry.getUserId(), actionId)) {
+    @Override
+    public String getModelName() {
+        return Assignment.class.getName();
+    }
 
-			return true;
-		}
+    @Override
+    public PortletResourcePermission getPortletResourcePermission() {
+        return portletResourcePermission;
+    }
 
-		return permissionChecker.hasPermission(
-				entry.getGroupId(), Assignment.class.getName(),
-				entry.getAssignmentId(), actionId);
-	}
+    public static boolean contains(
+            PermissionChecker permissionChecker, long groupId, long assignmentId,
+            String actionId) {
 
-	public static boolean contains(
-			PermissionChecker permissionChecker, Layout layout, String portletId,
-			String actionId) {
-
-		if (layout instanceof VirtualLayout) {
-			VirtualLayout virtualLayout = (VirtualLayout)layout;
-
-			layout = virtualLayout.getSourceLayout();
-		}
-
-		String primKey = PortletPermissionUtil.getPrimaryKey(
-				layout.getPlid(), portletId);
-
-		return permissionChecker.hasPermission(
-				layout.getGroupId(), portletId, primKey, actionId);
-	}
-
-	public static boolean contains(
-			PermissionChecker permissionChecker, long entryId, String actionId)
-			throws PortalException {
-
-		return contains(
-				permissionChecker,
-				AssignmentLocalServiceUtil.getAssignment(entryId), actionId);
-	}
-
-	public static boolean contains(
-			PermissionChecker permissionChecker, long plid, String name,
-			String actionId) {
-
-		return contains(
-				permissionChecker, LayoutLocalServiceUtil.fetchLayout(plid), name,
-				actionId);
-	}
+        return (permissionChecker.hasPermission(
+                groupId, RESOURCE_NAME, assignmentId, actionId));
+    }
 }
 

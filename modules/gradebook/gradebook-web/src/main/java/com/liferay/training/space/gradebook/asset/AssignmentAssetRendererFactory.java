@@ -1,4 +1,5 @@
 package com.liferay.training.space.gradebook.asset;
+
 import com.liferay.asset.kernel.model.AssetRenderer;
 import com.liferay.asset.kernel.model.AssetRendererFactory;
 import com.liferay.asset.kernel.model.BaseAssetRendererFactory;
@@ -23,80 +24,83 @@ import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Reference;
 
 @Component(
-	immediate = true,
-	property = {
-		"javax.portlet.name=" + GradebookPortletKeys.PORTLET_NAME
-}, service = AssetRendererFactory.class)
-public class AssignmentAssetRendererFactory extends 
-		BaseAssetRendererFactory<Assignment> {
-	public AssignmentAssetRendererFactory() {
-		setClassName(CLASS_NAME);
-		setLinkable(true);
-		setPortletId(GradebookPortletKeys.PORTLET_NAME);
-		setSearchable(true);
-	}
-	@Override
-	public AssetRenderer<Assignment> getAssetRenderer(long classPK, int type) 
-			throws PortalException {
-		Assignment assignment = _assignmentLocalService.getAssignment(classPK);
-		
-		AssignmentAssetRenderer assignmentAssetRenderer = 
-			new AssignmentAssetRenderer(assignment);
-		
-		assignmentAssetRenderer.setAssetRendererType(type);
-		return assignmentAssetRenderer;
-	}
-	@Override
-	public String getType() {
-		return TYPE;
-	}
-	
-	@Override
-	public boolean hasAddPermission(
-			PermissionChecker permissionChecker, long groupId, long classTypeId)
-		throws Exception {
-		return PortalPermissionUtil.contains(permissionChecker, AssignmentPermissionChecker.ADD_ASSIGNMENT);
-	}
-	@Override
-	public boolean hasPermission(
-			PermissionChecker permissionChecker, long classPK, String actionId)
-			throws Exception { 
-	
-		Assignment assignment = _assignmentLocalService.getAssignment(classPK);
-		
-		return AssignmentPermissionChecker.contains(
+        immediate = true,
+        property = {
+                "javax.portlet.name=" + GradebookPortletKeys.PORTLET_NAME
+        }, service = AssetRendererFactory.class)
+public class AssignmentAssetRendererFactory extends
+        BaseAssetRendererFactory<Assignment> {
+    public AssignmentAssetRendererFactory() {
+        setClassName(CLASS_NAME);
+        setLinkable(true);
+        setPortletId(GradebookPortletKeys.PORTLET_NAME);
+        setSearchable(true);
+    }
+
+    @Override
+    public AssetRenderer<Assignment> getAssetRenderer(long classPK, int type)
+            throws PortalException {
+        Assignment assignment = _assignmentLocalService.getAssignment(classPK);
+
+        AssignmentAssetRenderer assignmentAssetRenderer =
+                new AssignmentAssetRenderer(assignment);
+
+        assignmentAssetRenderer.setAssetRendererType(type);
+        return assignmentAssetRenderer;
+    }
+
+    @Override
+    public String getType() {
+        return TYPE;
+    }
+
+    @Override
+    public boolean hasAddPermission(
+            PermissionChecker permissionChecker, long groupId, long classTypeId)
+            throws Exception {
+        return PortalPermissionUtil.contains(permissionChecker, AssignmentPermissionChecker.ADD_ASSIGNMENT);
+    }
+
+    @Override
+    public boolean hasPermission(
+            PermissionChecker permissionChecker, long classPK, String actionId)
+            throws Exception {
+
+        Assignment assignment = _assignmentLocalService.getAssignment(classPK);
+        //FIXME: add assignment permission checker
+		/*return AssignmentPermissionChecker.contains(
 			permissionChecker,
-			assignment.getAssignmentId(), actionId);
-	}
-	
-	@Override
-	public PortletURL getURLAdd(
-		LiferayPortletRequest liferayPortletRequest,
-		LiferayPortletResponse liferayPortletResponse, long classTypeId) {
-		PortletURL portletURL = null;
+			assignment.getAssignmentId(), actionId);*/
+        return true;
+    }
 
-		try {
-		  ThemeDisplay themeDisplay =
-			  (ThemeDisplay)liferayPortletRequest.getAttribute(
-			  	WebKeys.THEME_DISPLAY);
+    @Override
+    public PortletURL getURLAdd(
+            LiferayPortletRequest liferayPortletRequest,
+            LiferayPortletResponse liferayPortletResponse, long classTypeId) {
+        PortletURL portletURL = null;
 
-	  	  portletURL = liferayPortletResponse.createLiferayPortletURL(
-			  getControlPanelPlid(themeDisplay),
-			  GradebookPortletKeys.PORTLET_NAME, PortletRequest.RENDER_PHASE);
-		  portletURL.setParameter("mvcRenderCommandName", "/gradebook/assignment/edit");
-		  portletURL.setParameter("showback", Boolean.FALSE.toString());
-		}
-		catch (PortalException e) {
-		}
-		
-		return portletURL;
-	}
-	
-	@Reference(target = "(osgi.web.symbolicname=gradebook.web)")
-	private ServletContext _servletContext;
-	@Reference
-	private AssignmentLocalService _assignmentLocalService;
-	public static final String CLASS_NAME = Assignment.class.getName();
-	public static final String TYPE = "assignment";
+        try {
+            ThemeDisplay themeDisplay =
+                    (ThemeDisplay) liferayPortletRequest.getAttribute(
+                            WebKeys.THEME_DISPLAY);
+
+            portletURL = liferayPortletResponse.createLiferayPortletURL(
+                    getControlPanelPlid(themeDisplay),
+                    GradebookPortletKeys.PORTLET_NAME, PortletRequest.RENDER_PHASE);
+            portletURL.setParameter("mvcRenderCommandName", "/gradebook/assignment/edit");
+            portletURL.setParameter("showback", Boolean.FALSE.toString());
+        } catch (PortalException e) {
+        }
+
+        return portletURL;
+    }
+
+    @Reference(target = "(osgi.web.symbolicname=gradebook.web)")
+    private ServletContext _servletContext;
+    @Reference
+    private AssignmentLocalService _assignmentLocalService;
+    public static final String CLASS_NAME = Assignment.class.getName();
+    public static final String TYPE = "assignment";
 }
 

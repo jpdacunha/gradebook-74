@@ -29,6 +29,6 @@ if (hasAddPermission) {
 <clay:management-toolbar
     creationMenu="<%= creationMenu %>"
     searchContainerId="gradebookEntries"
-    showSearch="<%= false %>"
+    showSearch="<%= true %>"
     spritemap="<%= themeDisplay.getPathThemeImages() + "/clay/icons.svg" %>"
 />
