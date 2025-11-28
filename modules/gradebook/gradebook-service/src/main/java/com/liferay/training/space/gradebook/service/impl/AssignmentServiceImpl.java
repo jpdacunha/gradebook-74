@@ -54,9 +54,8 @@ public class AssignmentServiceImpl extends AssignmentServiceBaseImpl {
 
     public Assignment getAssignment(long assignmentId) throws PortalException {
         Assignment assignment = assignmentLocalService.getAssignment(assignmentId);
-
-        assignmentPermissionChecker.check(getPermissionChecker(), assignment.getAssignmentId(), ActionKeys.VIEW);
-
+         //FIXME : reglage des permission get assignment
+        //assignmentPermissionChecker.check(getPermissionChecker(), assignment.getAssignmentId(), ActionKeys.VIEW);
         return assignment;
     }
 
@@ -92,10 +91,10 @@ public class AssignmentServiceImpl extends AssignmentServiceBaseImpl {
     public Assignment updateAssignment(
             Assignment assignment)
             throws PortalException {
-
-        assignmentPermissionChecker.check(
+        //FIXME : A FAIRE SUR SITE LA semaine 01/12/2025
+        /*assignmentPermissionChecker.check(
                 getPermissionChecker(),
-                assignment.getAssignmentId(), ActionKeys.UPDATE);
+                assignment.getAssignmentId(), ActionKeys.UPDATE);*/
         return assignmentLocalService.updateAssignment(assignment);
     }
 

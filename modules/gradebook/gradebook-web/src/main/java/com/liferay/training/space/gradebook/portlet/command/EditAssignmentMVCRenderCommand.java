@@ -36,8 +36,7 @@ public class EditAssignmentMVCRenderCommand implements MVCRenderCommand {
 
 		if (assignmentId > 0) {
 			try {
-				assignment =
-					_assignmentService.getAssignment(assignmentId);
+				assignment = _assignmentService.getAssignment(assignmentId);
 
 				title = "Edit Assignment";
 			}

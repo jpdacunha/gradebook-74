@@ -27,6 +27,6 @@
 <c:set var="portletNamespace"><portlet:namespace/></c:set>
 
 <%@ page import="com.liferay.portal.kernel.security.permission.ActionKeys" %>
-
+<%@ page import="java.text.SimpleDateFormat" %>
 <%@ page import="com.liferay.portal.kernel.security.permission.resource.ModelResourcePermission" %>
 <%@ page import="com.liferay.portal.kernel.security.permission.resource.ModelResourcePermissionUtil" %>

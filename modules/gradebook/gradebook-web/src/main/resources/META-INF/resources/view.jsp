@@ -20,8 +20,13 @@
 
                 <liferay-ui:search-container-row
                         className="com.liferay.training.space.gradebook.model.Assignment"
-                        modelVar="assignment">
-
+                        modelVar="assignment"
+                        keyProperty="assignmentId"
+                 >
+                <portlet:renderURL var="rowURL">
+                                   <portlet:param name="mvcRenderCommandName" value="/gradebook/assignment/edit"/>
+                                   <portlet:param name="assignmentId" value="<%= String.valueOf(assignment.getAssignmentId()) %>" />
+                               </portlet:renderURL>
                     <liferay-ui:search-container-column-text
                             name="Title"
                             value="${assignment.getTitle(locale)}" />
