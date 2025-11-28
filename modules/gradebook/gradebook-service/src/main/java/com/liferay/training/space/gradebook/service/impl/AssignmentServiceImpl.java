@@ -15,15 +15,19 @@
 package com.liferay.training.space.gradebook.service.impl;
 
 import com.liferay.portal.kernel.exception.PortalException;
+import com.liferay.portal.kernel.security.auth.PrincipalException;
 import com.liferay.portal.kernel.security.permission.ActionKeys;
+import com.liferay.portal.kernel.security.permission.PermissionChecker;
 import com.liferay.portal.kernel.security.permission.resource.ModelResourcePermission;
 import com.liferay.portal.kernel.service.ServiceContext;
+import com.liferay.portal.kernel.service.permission.PortalPermissionUtil;
 import com.liferay.training.space.gradebook.model.Assignment;
 
 import java.util.List;
 
 import aQute.bnd.annotation.ProviderType;
 import com.liferay.training.space.gradebook.service.base.AssignmentServiceBaseImpl;
+import com.liferay.training.space.gradebook.service.permission.AssignmentPermissionChecker;
 import org.osgi.service.component.annotations.Reference;
 import org.osgi.service.component.annotations.ReferencePolicy;
 import org.osgi.service.component.annotations.ReferencePolicyOption;
@@ -54,7 +58,7 @@ public class AssignmentServiceImpl extends AssignmentServiceBaseImpl {
 
     public Assignment getAssignment(long assignmentId) throws PortalException {
         Assignment assignment = assignmentLocalService.getAssignment(assignmentId);
-         //FIXME : reglage des permission get assignment
+        //FIXME : reglage des permission get assignment
         //assignmentPermissionChecker.check(getPermissionChecker(), assignment.getAssignmentId(), ActionKeys.VIEW);
         return assignment;
     }
@@ -91,10 +95,11 @@ public class AssignmentServiceImpl extends AssignmentServiceBaseImpl {
     public Assignment updateAssignment(
             Assignment assignment)
             throws PortalException {
-        //FIXME : A FAIRE SUR SITE LA semaine 01/12/2025
-        /*assignmentPermissionChecker.check(
+
+        assignmentPermissionChecker.check(
                 getPermissionChecker(),
-                assignment.getAssignmentId(), ActionKeys.UPDATE);*/
+                assignment.getAssignmentId(),
+                ActionKeys.UPDATE);
         return assignmentLocalService.updateAssignment(assignment);
     }
 

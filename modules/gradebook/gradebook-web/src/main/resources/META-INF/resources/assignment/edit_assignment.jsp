@@ -16,8 +16,9 @@
     name="<%= (assignment == null) ? \"/gradebook/assignment/add\" : \"/gradebook/assignment/edit\" %>">
     <portlet:param name="redirect" value="<%= redirect %>" />
 </portlet:actionURL>
-
-<div class="container-fluid-1280">
+<div class="container mt-5" style="max-width: 1200px;">
+<div class="card shadow-sm">
+        <div class="card-body p-0">
 
     <aui:model-context bean="<%= assignment %>" model="<%= Assignment.class %>" />
 
@@ -41,3 +42,5 @@
 
     </aui:form>
 </div>
+ </div>
+    </div>

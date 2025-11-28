@@ -37,5 +37,4 @@ Assignment assignment = (Assignment)row.getObject();
       			url="<%= permissionURL %>"
       		/>
 
-
 </liferay-ui:icon-menu>
