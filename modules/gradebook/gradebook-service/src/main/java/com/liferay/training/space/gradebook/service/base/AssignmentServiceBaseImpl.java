@@ -425,7 +425,6 @@ public abstract class AssignmentServiceBaseImpl
 		return assetLinkLocalService;
 	}
 
-
 	/**
 	 * Sets the asset link local service.
 	 *

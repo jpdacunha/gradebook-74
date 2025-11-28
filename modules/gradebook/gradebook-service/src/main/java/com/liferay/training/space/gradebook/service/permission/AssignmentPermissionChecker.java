@@ -25,8 +25,8 @@ public class AssignmentPermissionChecker implements ModelResourcePermission<Assi
     @Reference
     private AssignmentLocalService assignmentLocalService;
 
-    @Reference(target = "(resource.name=" + "com.liferay.training.space.gradebook" + ")")
-    private PortletResourcePermission portletResourcePermission;
+   // @Reference(target = "(resource.name=" + "com.liferay.training.space.gradebook" + ")")
+  //  private PortletResourcePermission portletResourcePermission;
 
 
     @Override
@@ -76,7 +76,7 @@ public class AssignmentPermissionChecker implements ModelResourcePermission<Assi
 
     @Override
     public PortletResourcePermission getPortletResourcePermission() {
-        return portletResourcePermission;
+        return null;
     }
 
     public static boolean contains(
