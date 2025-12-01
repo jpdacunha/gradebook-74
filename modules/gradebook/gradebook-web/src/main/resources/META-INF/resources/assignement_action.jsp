@@ -22,8 +22,8 @@
 
 
         <portlet:renderURL var="subURL">
-            <portlet:param name="mvcRenderCommandName" value="/assignment/view_submissions"/>
-
+            <portlet:param name="mvcRenderCommandName" value="/gradebook/submissions/view"/>
+            <portlet:param name="assignmentId" value="<%= String.valueOf(assignment.getAssignmentId()) %>" />
             </portlet:renderURL>
             <liferay-ui:icon
             message="submission"
