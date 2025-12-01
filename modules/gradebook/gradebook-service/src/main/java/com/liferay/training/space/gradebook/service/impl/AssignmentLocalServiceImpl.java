@@ -1,5 +1,6 @@
 package com.liferay.training.space.gradebook.service.impl;
 
+import com.liferay.asset.kernel.model.AssetEntry;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.exception.SystemException;
 import com.liferay.portal.kernel.model.ResourceConstants;
@@ -66,23 +67,28 @@ public class AssignmentLocalServiceImpl extends AssignmentLocalServiceBaseImpl {
 	}
 
 	@Indexable(type = IndexableType.DELETE)
-	public Assignment deleteAssignment(Assignment assignment) {
+	public Assignment deleteAssignment(Assignment assignment) throws PortalException {
 
-		try {
 			resourceLocalService.deleteResource(
 					assignment,
 					ResourceConstants.SCOPE_INDIVIDUAL
 			);
-
-			assetEntryLocalService.deleteEntry(
-					Assignment.class.getName(), assignment.getAssignmentId()
+			AssetEntry assetEntry = assetEntryLocalService.fetchEntry(
+					Assignment.class.getName(),
+					assignment.getAssignmentId()
 			);
+
+			if (assetEntry != null) {
+				assetEntryLocalService.deleteAssetEntry(assetEntry);
+			}
+		    // Depuis Liferay 7.4, l’API AssetEntryLocalService a été simplifiée, et l’effacement d’un AssetEntry se fait via la persistance, pas via le service.
+			/*assetEntryLocalService.deleteEntry(Assignment.class.getName(),
+					assignment.getAssignmentId()
+			);*/
 
 			return super.deleteAssignment(assignment);
 
-		} catch (PortalException e) {
-			throw new SystemException(e);
-		}
+
 	}
 
 

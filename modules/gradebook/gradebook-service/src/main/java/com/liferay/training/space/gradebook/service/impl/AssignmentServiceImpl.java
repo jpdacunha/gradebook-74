@@ -64,9 +64,9 @@ public class AssignmentServiceImpl extends AssignmentServiceBaseImpl {
     }
 
     public Assignment deleteAssignment(Assignment assignment) throws PortalException {
-        assignmentPermissionChecker.check(
+        /*assignmentPermissionChecker.check(
                 getPermissionChecker(),
-                assignment.getAssignmentId(), ActionKeys.DELETE);
+                assignment.getAssignmentId(), ActionKeys.DELETE);*/
 
         return assignmentLocalService.deleteAssignment(assignment);
     }
@@ -96,10 +96,10 @@ public class AssignmentServiceImpl extends AssignmentServiceBaseImpl {
             Assignment assignment)
             throws PortalException {
 
-        assignmentPermissionChecker.check(
+        /*assignmentPermissionChecker.check(
                 getPermissionChecker(),
                 assignment.getAssignmentId(),
-                ActionKeys.UPDATE);
+                ActionKeys.UPDATE); */
         return assignmentLocalService.updateAssignment(assignment);
     }
 

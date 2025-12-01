@@ -31,7 +31,7 @@ public class DeleteAssignmentMVCActionCommand extends BaseMVCActionCommand {
 		long assignmentId = ParamUtil.getLong(actionRequest, "assignmentId");
 
 		_assignmentService.deleteAssignment(assignmentId);
-		  SessionMessages.add(actionRequest, "assignment-deleted");
+		SessionMessages.add(actionRequest, "assignment-deleted");
 	}
 
 	@Reference(cardinality = ReferenceCardinality.MANDATORY)
