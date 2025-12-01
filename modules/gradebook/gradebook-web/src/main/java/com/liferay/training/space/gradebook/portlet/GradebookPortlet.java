@@ -1,11 +1,9 @@
 package com.liferay.training.space.gradebook.portlet;
 
 import com.liferay.portal.kernel.portlet.bridges.mvc.MVCPortlet;
-import com.liferay.portal.kernel.service.permission.PortalPermissionUtil;
 import com.liferay.portal.kernel.theme.ThemeDisplay;
 import com.liferay.portal.kernel.util.WebKeys;
 import com.liferay.training.space.gradebook.service.AssignmentLocalService;
-import com.liferay.training.space.gradebook.service.permission.AssignmentPermissionChecker;
 
 import java.io.IOException;
 
@@ -21,15 +19,37 @@ import org.osgi.service.component.annotations.ReferenceCardinality;
 @Component(
 	immediate = true,
 	property = {
-		"com.liferay.portlet.display-category=category.sample",
-		"com.liferay.portlet.instanceable=true",
-		"javax.portlet.display-name=gradebook-web Portlet",
-		"javax.portlet.init-param.template-path=/",
-		"javax.portlet.init-param.view-template=/view.jsp",
-		"javax.portlet.init-param.add-process-action-success-action=false",
-		"javax.portlet.resource-bundle=content.Language",
-		"javax.portlet.security-role-ref=power-user,user",
-		"com.liferay.portlet.add-default-resource=true",
+		//"com.liferay.portlet.display-category=category.sample",
+		//"com.liferay.portlet.instanceable=true",
+		//"javax.portlet.display-name=gradebook-web Portlet",
+		//"javax.portlet.init-param.template-path=/",
+		//"javax.portlet.init-param.view-template=/view.jsp",
+		//"javax.portlet.init-param.add-process-action-success-action=false",
+		//"javax.portlet.resource-bundle=content.Language",
+		//"javax.portlet.security-role-ref=power-user,user",
+		//"com.liferay.portlet.add-default-resource=true",
+
+			"com.liferay.portlet.add-default-resource=true",
+			"com.liferay.portlet.display-category=category.hidden",
+			"com.liferay.portlet.preferences-owned-by-group=true",
+			"com.liferay.portlet.private-request-attributes=false",
+			"com.liferay.portlet.private-session-attributes=false",
+			"com.liferay.portlet.render-weight=50",
+			"com.liferay.portlet.scopeable=true",
+			"com.liferay.portlet.struts-path=gradebook",
+			"javax.portlet.display-name=Gradebook",
+			"javax.portlet.expiration-cache=0",
+			"javax.portlet.init-param.always-display-default-configuration-icons=true",
+			 "javax.portlet.init-param.view-template=/view.jsp",
+			"javax.portlet.init-param.portlet-title-based-navigation=false",
+			"javax.portlet.init-param.template-path=/",
+			"javax.portlet.name=" + GradebookPortletKeys.PORTLET_NAME,
+			"javax.portlet.resource-bundle=content.Language",
+			"javax.portlet.security-role-ref=power-user,user",
+			"javax.portlet.supported-public-render-parameter=categoryId",
+			"javax.portlet.supported-public-render-parameter=resetCur",
+			"javax.portlet.supported-public-render-parameter=tag",
+			"javax.portlet.version=3.0"
 	},
 	service = Portlet.class
 )
