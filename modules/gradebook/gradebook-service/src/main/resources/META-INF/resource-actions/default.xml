@@ -35,7 +35,6 @@
 				<action-key>PERMISSIONS</action-key>
 				<action-key>UPDATE</action-key>
 				<action-key>VIEW</action-key>
-				<action-key>EDIT_SUBMISSION</action-key>
 			</supports>
 			<site-member-defaults>
 				<action-key>VIEW</action-key>

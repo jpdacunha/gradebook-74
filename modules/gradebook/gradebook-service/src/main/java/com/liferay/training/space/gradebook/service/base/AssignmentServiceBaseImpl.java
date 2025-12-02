@@ -26,7 +26,6 @@ import com.liferay.training.space.gradebook.model.Assignment;
 import com.liferay.training.space.gradebook.service.AssignmentService;
 import com.liferay.training.space.gradebook.service.AssignmentServiceUtil;
 import com.liferay.training.space.gradebook.service.persistence.AssignmentPersistence;
-import com.liferay.training.space.gradebook.service.persistence.SubmissionPersistence;
 
 import javax.sql.DataSource;
 
@@ -110,72 +109,6 @@ public abstract class AssignmentServiceBaseImpl
 		AssignmentPersistence assignmentPersistence) {
 
 		this.assignmentPersistence = assignmentPersistence;
-	}
-
-	/**
-	 * Returns the submission local service.
-	 *
-	 * @return the submission local service
-	 */
-	public com.liferay.training.space.gradebook.service.SubmissionLocalService
-		getSubmissionLocalService() {
-
-		return submissionLocalService;
-	}
-
-	/**
-	 * Sets the submission local service.
-	 *
-	 * @param submissionLocalService the submission local service
-	 */
-	public void setSubmissionLocalService(
-		com.liferay.training.space.gradebook.service.SubmissionLocalService
-			submissionLocalService) {
-
-		this.submissionLocalService = submissionLocalService;
-	}
-
-	/**
-	 * Returns the submission remote service.
-	 *
-	 * @return the submission remote service
-	 */
-	public com.liferay.training.space.gradebook.service.SubmissionService
-		getSubmissionService() {
-
-		return submissionService;
-	}
-
-	/**
-	 * Sets the submission remote service.
-	 *
-	 * @param submissionService the submission remote service
-	 */
-	public void setSubmissionService(
-		com.liferay.training.space.gradebook.service.SubmissionService
-			submissionService) {
-
-		this.submissionService = submissionService;
-	}
-
-	/**
-	 * Returns the submission persistence.
-	 *
-	 * @return the submission persistence
-	 */
-	public SubmissionPersistence getSubmissionPersistence() {
-		return submissionPersistence;
-	}
-
-	/**
-	 * Sets the submission persistence.
-	 *
-	 * @param submissionPersistence the submission persistence
-	 */
-	public void setSubmissionPersistence(
-		SubmissionPersistence submissionPersistence) {
-
-		this.submissionPersistence = submissionPersistence;
 	}
 
 	/**
@@ -584,22 +517,6 @@ public abstract class AssignmentServiceBaseImpl
 
 	@BeanReference(type = AssignmentPersistence.class)
 	protected AssignmentPersistence assignmentPersistence;
-
-	@BeanReference(
-		type = com.liferay.training.space.gradebook.service.SubmissionLocalService.class
-	)
-	protected
-		com.liferay.training.space.gradebook.service.SubmissionLocalService
-			submissionLocalService;
-
-	@BeanReference(
-		type = com.liferay.training.space.gradebook.service.SubmissionService.class
-	)
-	protected com.liferay.training.space.gradebook.service.SubmissionService
-		submissionService;
-
-	@BeanReference(type = SubmissionPersistence.class)
-	protected SubmissionPersistence submissionPersistence;
 
 	@ServiceReference(
 		type = com.liferay.counter.kernel.service.CounterLocalService.class

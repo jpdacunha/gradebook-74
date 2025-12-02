@@ -58,19 +58,6 @@ public class AssignmentLocalServiceUtil {
 		return getService().addAssignment(assignment, serviceContext);
 	}
 
-	public static void addBlankSubmissions(
-		List<com.liferay.portal.kernel.model.User> students, long assignmentId,
-		long groupId) {
-
-		getService().addBlankSubmissions(students, assignmentId, groupId);
-	}
-
-	public static void addBlankSubmissions(long groupId, long assignmentId)
-		throws PortalException {
-
-		getService().addBlankSubmissions(groupId, assignmentId);
-	}
-
 	/**
 	 * Creates a new assignment with the primary key. Does not add the assignment to the database.
 	 *

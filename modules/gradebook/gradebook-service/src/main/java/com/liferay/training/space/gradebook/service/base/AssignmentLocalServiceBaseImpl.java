@@ -54,7 +54,6 @@ import com.liferay.training.space.gradebook.model.Assignment;
 import com.liferay.training.space.gradebook.service.AssignmentLocalService;
 import com.liferay.training.space.gradebook.service.AssignmentLocalServiceUtil;
 import com.liferay.training.space.gradebook.service.persistence.AssignmentPersistence;
-import com.liferay.training.space.gradebook.service.persistence.SubmissionPersistence;
 
 import java.io.Serializable;
 
@@ -596,49 +595,6 @@ public abstract class AssignmentLocalServiceBaseImpl
 	}
 
 	/**
-	 * Returns the submission local service.
-	 *
-	 * @return the submission local service
-	 */
-	public com.liferay.training.space.gradebook.service.SubmissionLocalService
-		getSubmissionLocalService() {
-
-		return submissionLocalService;
-	}
-
-	/**
-	 * Sets the submission local service.
-	 *
-	 * @param submissionLocalService the submission local service
-	 */
-	public void setSubmissionLocalService(
-		com.liferay.training.space.gradebook.service.SubmissionLocalService
-			submissionLocalService) {
-
-		this.submissionLocalService = submissionLocalService;
-	}
-
-	/**
-	 * Returns the submission persistence.
-	 *
-	 * @return the submission persistence
-	 */
-	public SubmissionPersistence getSubmissionPersistence() {
-		return submissionPersistence;
-	}
-
-	/**
-	 * Sets the submission persistence.
-	 *
-	 * @param submissionPersistence the submission persistence
-	 */
-	public void setSubmissionPersistence(
-		SubmissionPersistence submissionPersistence) {
-
-		this.submissionPersistence = submissionPersistence;
-	}
-
-	/**
 	 * Returns the counter local service.
 	 *
 	 * @return the counter local service
@@ -951,16 +907,6 @@ public abstract class AssignmentLocalServiceBaseImpl
 
 	@BeanReference(type = AssignmentPersistence.class)
 	protected AssignmentPersistence assignmentPersistence;
-
-	@BeanReference(
-		type = com.liferay.training.space.gradebook.service.SubmissionLocalService.class
-	)
-	protected
-		com.liferay.training.space.gradebook.service.SubmissionLocalService
-			submissionLocalService;
-
-	@BeanReference(type = SubmissionPersistence.class)
-	protected SubmissionPersistence submissionPersistence;
 
 	@ServiceReference(
 		type = com.liferay.counter.kernel.service.CounterLocalService.class

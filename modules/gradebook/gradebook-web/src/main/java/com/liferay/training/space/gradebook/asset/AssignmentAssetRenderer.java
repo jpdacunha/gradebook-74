@@ -30,19 +30,18 @@ public class AssignmentAssetRenderer extends BaseJSPAssetRenderer<Assignment> {
 	@Override
 	public boolean hasEditPermission(PermissionChecker permissionChecker)
 		throws PortalException {
-		return true;
-		// FIXME appel permission checker
-		/*return AssignmentPermissionChecker.contains(
+		return AssignmentPermissionChecker.contains(
 			permissionChecker,
-			_assignment.getAssignmentId(), ActionKeys.UPDATE);*/
+			_assignment.getGroupId(),
+			_assignment.getAssignmentId(), ActionKeys.UPDATE);
 	}
 	@Override
 	public boolean hasViewPermission(PermissionChecker permissionChecker)
 		throws PortalException {
-		return  true;
-		/*return AssignmentPermissionChecker.contains(
+		return AssignmentPermissionChecker.contains(
 			permissionChecker,
-			_assignment.getAssignmentId(), ActionKeys.VIEW);*/
+			_assignment.getGroupId(),
+			_assignment.getAssignmentId(), ActionKeys.VIEW);
 	}
 	@Override
 	public Assignment getAssetObject() {
@@ -140,7 +139,7 @@ public class AssignmentAssetRenderer extends BaseJSPAssetRenderer<Assignment> {
 			}
 			
 			portletURL.setParameter(
-					"mvcRenderCommandName", "/gradebook/submissions/view");
+					"mvcRenderCommandName", "/gradebook/assignments/view");
 			portletURL.setParameter(
 				"assignmentId", String.valueOf(_assignment.getAssignmentId()));
 			

@@ -55,22 +55,6 @@ public class AssignmentLocalServiceWrapper
 			assignment, serviceContext);
 	}
 
-	@Override
-	public void addBlankSubmissions(
-		java.util.List<com.liferay.portal.kernel.model.User> students,
-		long assignmentId, long groupId) {
-
-		_assignmentLocalService.addBlankSubmissions(
-			students, assignmentId, groupId);
-	}
-
-	@Override
-	public void addBlankSubmissions(long groupId, long assignmentId)
-		throws com.liferay.portal.kernel.exception.PortalException {
-
-		_assignmentLocalService.addBlankSubmissions(groupId, assignmentId);
-	}
-
 	/**
 	 * Creates a new assignment with the primary key. Does not add the assignment to the database.
 	 *

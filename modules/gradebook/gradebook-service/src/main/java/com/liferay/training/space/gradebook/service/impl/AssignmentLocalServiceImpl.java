@@ -2,7 +2,6 @@ package com.liferay.training.space.gradebook.service.impl;
 
 import com.liferay.asset.kernel.model.AssetEntry;
 import com.liferay.portal.kernel.exception.PortalException;
-import com.liferay.portal.kernel.exception.SystemException;
 import com.liferay.portal.kernel.model.ResourceConstants;
 import com.liferay.portal.kernel.model.User;
 import com.liferay.portal.kernel.search.Indexable;
@@ -11,7 +10,6 @@ import com.liferay.portal.kernel.service.ServiceContext;
 import com.liferay.portal.kernel.util.ContentTypes;
 import com.liferay.portal.kernel.util.DateUtil;
 import com.liferay.training.space.gradebook.model.Assignment;
-import com.liferay.training.space.gradebook.model.Submission;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -98,43 +96,6 @@ public class AssignmentLocalServiceImpl extends AssignmentLocalServiceBaseImpl {
 				"Use addAssignment(Assignment, ServiceContext) instead."
 		);
 	}
-
-
-	// ----------------------------------------------------
-	// SUBMISSIONS
-	// ----------------------------------------------------
-	public void addBlankSubmissions(long groupId, long assignmentId)
-			throws PortalException {
-
-		long[] userIds = userLocalService.getGroupUserIds(groupId);
-
-		List<User> students = new ArrayList<>();
-
-		for (long userId : userIds) {
-			students.add(userLocalService.getUser(userId));
-		}
-
-		addBlankSubmissions(students, assignmentId, groupId);
-	}
-
-
-	public void addBlankSubmissions(
-			List<User> students, long assignmentId, long groupId) {
-
-		for (User student : students) {
-
-			Submission submission = submissionLocalService.createSubmission(0);
-
-			submission.setStudentId(student.getUserId());
-			submission.setGroupId(groupId);
-			submission.setCreateDate(DateUtil.newDate());
-			submission.setAssignmentId(assignmentId);
-			submission.setGrade(0);
-
-			submissionLocalService.addSubmission(submission);
-		}
-	}
-
 
 	// ----------------------------------------------------
 	// UPDATE

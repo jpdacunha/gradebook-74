@@ -66,40 +66,4 @@
 		<reference package-path="com.liferay.portlet.asset" entity="AssetLink" />
 	</entity>
 
-	<entity name="Submission" local-service="true" remote-service="true">
-		<column name="submissionId" type="long" primary="true" />
-
-		<!-- Group instance -->
-
-		<column name="groupId" type="long" />
-
-		<!-- Audit fields -->
-
-		<column name="companyId" type="long" />
-		<column name="userId" type="long" />
-		<column name="userName" type="String" />
-		<column name="createDate" type="Date" />
-		<column name="modifiedDate" type="Date" />
-		<column name="assignmentId" type="long"></column>
-		<column name="studentId" type="long"></column>
-		<column name="submitDate" type="Date"></column>
-		<column name="comment" type="String"></column>
-		<column name="grade" type="int"></column>
-
-		<finder name="GroupId" return-type="Collection">
-			<finder-column name="groupId"></finder-column>
-		</finder>
-		<finder name="G_A" return-type="Collection">
-			<finder-column name="groupId"></finder-column>
-			<finder-column name="assignmentId"></finder-column>
-		</finder>
-		<finder name="StudentId" return-type="Collection">
-			<finder-column name="studentId"></finder-column>
-		</finder>
-
-		<!-- References -->
-
-		<reference package-path="com.liferay.portlet.asset" entity="AssetEntry" />
-		<reference package-path="com.liferay.portlet.asset" entity="AssetTag" />
-	</entity>
 </service-builder>

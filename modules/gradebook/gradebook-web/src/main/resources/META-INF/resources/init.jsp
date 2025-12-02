@@ -12,7 +12,6 @@
 <%@ page import="java.util.List" %>
 
 <%@ page import="com.liferay.training.space.gradebook.model.Assignment" %>
-<%@ page import="com.liferay.training.space.gradebook.model.Submission" %>
 
 <%@ page import="com.liferay.portal.kernel.util.ParamUtil" %>
 <%@ page import="com.liferay.portal.kernel.util.StringUtil" %>

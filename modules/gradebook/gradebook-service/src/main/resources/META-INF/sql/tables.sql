@@ -16,18 +16,3 @@ create table Gradebook_Assignment (
 	title STRING null,
 	description STRING null
 );
-
-create table Gradebook_Submission (
-	submissionId LONG not null primary key,
-	groupId LONG,
-	companyId LONG,
-	userId LONG,
-	userName VARCHAR(75) null,
-	createDate DATE null,
-	modifiedDate DATE null,
-	assignmentId LONG,
-	studentId LONG,
-	submitDate DATE null,
-	comment_ STRING null,
-	grade INTEGER
-);

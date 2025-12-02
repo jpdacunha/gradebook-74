@@ -34,12 +34,12 @@ public class AssignmentPermissionChecker {
     public static boolean containsTopLevel(
             PermissionChecker permissionChecker, long groupId, String actionId) {
 
-        _log.info("PermissionChecker : " + permissionChecker.getClass().getName());
-        _log.info("groupId : " + groupId);
-        _log.info("actionId : " + actionId);
+        _log.debug("PermissionChecker : " + permissionChecker.getClass().getName());
+        _log.debug("groupId : " + groupId);
+        _log.debug("actionId : " + actionId);
 
         boolean hasPermission = permissionChecker.hasPermission(groupId, TOP_LEVEL_RESOURCE, groupId, actionId);
-        _log.info("hasPermission : " + hasPermission);
+        _log.debug("hasPermission : " + hasPermission);
 
         return hasPermission;
 
@@ -49,13 +49,13 @@ public class AssignmentPermissionChecker {
             PermissionChecker permissionChecker, long groupId, long assignmentId,
             String actionId) throws PrincipalException.MustHavePermission {
 
-        _log.info("PermissionChecker : " + permissionChecker.getClass().getName());
-        _log.info("groupId : " + groupId);
-        _log.info("assignmentId : " + assignmentId);
-        _log.info("actionId : " + actionId);
+        _log.debug("PermissionChecker : " + permissionChecker.getClass().getName());
+        _log.debug("groupId : " + groupId);
+        _log.debug("assignmentId : " + assignmentId);
+        _log.debug("actionId : " + actionId);
 
         boolean hasPermission = permissionChecker.hasPermission(groupId, RESOURCE_NAME, assignmentId, actionId);
-        _log.info("hasPermission : " + hasPermission);
+        _log.debug("hasPermission : " + hasPermission);
 
         if (!hasPermission) {
             throw new PrincipalException.MustHavePermission(
@@ -67,13 +67,13 @@ public class AssignmentPermissionChecker {
     public static boolean contains(
             PermissionChecker permissionChecker, long groupId, long assignmentId,
             String actionId) {
-        _log.info("PermissionChecker : " + permissionChecker.getClass().getName());
-        _log.info("groupId : " + groupId);
-        _log.info("assignmentId : " + assignmentId);
-        _log.info("actionId : " + actionId);
+        _log.debug("PermissionChecker : " + permissionChecker.getClass().getName());
+        _log.debug("groupId : " + groupId);
+        _log.debug("assignmentId : " + assignmentId);
+        _log.debug("actionId : " + actionId);
 
         boolean hasPermission = permissionChecker.hasPermission(groupId, RESOURCE_NAME, assignmentId, actionId);
-        _log.info("hasPermission : " + hasPermission);
+        _log.debug("hasPermission : " + hasPermission);
         return hasPermission;
 
     }

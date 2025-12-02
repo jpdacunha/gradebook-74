@@ -17,7 +17,7 @@
             permissionChecker, scopeGroupId,
             assignment.getAssignmentId(), ActionKeys.PERMISSIONS);
     %>
-    <liferay-ui:icon-menu
+<liferay-ui:icon-menu
     direction="left-side"
     icon="<%= StringPool.BLANK %>"
     markupView="lexicon"
@@ -34,15 +34,6 @@
             url="<%= editURL %>"
         />
     </c:if>
-
-    <portlet:renderURL var="subURL">
-            <portlet:param name="mvcRenderCommandName" value="/gradebook/submissions/view"/>
-            <portlet:param name="assignmentId" value="<%= String.valueOf(assignment.getAssignmentId()) %>" />
-            </portlet:renderURL>
-            <liferay-ui:icon
-            message="submission"
-            url="<%= subURL %>"
-    />
 
     <c:if test="<%=hasPermissionsAssignmentPermission%>">
         <portlet:renderURL var="permissionURL">
