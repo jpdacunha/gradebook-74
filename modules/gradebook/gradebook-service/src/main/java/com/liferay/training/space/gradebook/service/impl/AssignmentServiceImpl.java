@@ -15,6 +15,7 @@
 package com.liferay.training.space.gradebook.service.impl;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.security.permission.ActionKeys;
+import com.liferay.portal.kernel.security.permission.PermissionChecker;
 import com.liferay.portal.kernel.security.permission.resource.ModelResourcePermission;
 import com.liferay.portal.kernel.service.ServiceContext;
 import com.liferay.training.space.gradebook.model.Assignment;
@@ -42,14 +43,6 @@ import org.osgi.service.component.annotations.ReferencePolicyOption;
  */
 @ProviderType
 public class AssignmentServiceImpl extends AssignmentServiceBaseImpl {
-
-    @Reference(
-            policy = ReferencePolicy.DYNAMIC,
-            policyOption = ReferencePolicyOption.GREEDY,
-            target = "(model.class.name=com.liferay.training.space.gradebook.model.Assignment)"
-    )
-    private ModelResourcePermission<Assignment> assignmentPermissionChecker;
-
 
     public Assignment getAssignment(long assignmentId) throws PortalException {
 
@@ -89,15 +82,12 @@ public class AssignmentServiceImpl extends AssignmentServiceBaseImpl {
     public Assignment addAssignment(
             Assignment assignment, ServiceContext serviceContext)
             throws PortalException {
-        //FIXME : sujet a voir semaine de 01/12/2025 sur site
-       /*PermissionChecker permissionChecker = getPermissionChecker();
-        long assignmentId = assignment.getAssignmentId();
-        String actionId = AssignmentPermissionChecker.ADD_ASSIGNMENT;
-        if (!PortalPermissionUtil.contains(permissionChecker,actionId)) {
-            throw new PrincipalException.MustHavePermission(
-                    permissionChecker, Assignment.class.getName(), assignmentId, actionId);
-        }*/
+
+        PermissionChecker permissionChecker = getPermissionChecker();
+        long groupId = serviceContext.getScopeGroupId();
+        AssignmentPermissionChecker.checkTopLevel(permissionChecker, groupId, AssignmentPermissionChecker.ADD_ASSIGNMENT);
         return assignmentLocalService.addAssignment(assignment, serviceContext);
+
     }
 
     public Assignment updateAssignment(

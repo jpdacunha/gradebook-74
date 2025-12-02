@@ -4,19 +4,10 @@ package com.liferay.training.space.gradebook.service.permission;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.security.auth.PrincipalException;
-import com.liferay.portal.kernel.security.permission.resource.ModelResourcePermission;
-import com.liferay.portal.kernel.security.permission.resource.PortletResourcePermission;
-import com.liferay.training.space.gradebook.service.AssignmentLocalService;
-import org.osgi.service.component.annotations.Component;
-import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.security.permission.PermissionChecker;
 import com.liferay.training.space.gradebook.model.Assignment;
-import org.osgi.service.component.annotations.Reference;
-import java.util.Objects;
 
-@Component(property = "model.class.name=com.liferay.training.space.gradebook.model.Assignment",
-           service = ModelResourcePermission.class)
-public class AssignmentPermissionChecker implements ModelResourcePermission<Assignment> {
+public class AssignmentPermissionChecker {
 
     private static final Log _log = LogFactoryUtil.getLog(AssignmentPermissionChecker.class);
 
@@ -26,57 +17,32 @@ public class AssignmentPermissionChecker implements ModelResourcePermission<Assi
 
     public static final String ADD_ASSIGNMENT = "ADD_ASSIGNMENT";
 
-    @Reference
-    private AssignmentLocalService assignmentLocalService;
+    private AssignmentPermissionChecker() {
+    }
 
-    @Override
-    public void check(PermissionChecker permissionChecker, long assignmentId, String actionId) throws PortalException {
-        Assignment assignment = assignmentLocalService.getAssignment(assignmentId);
-        long groupId = assignment.getGroupId();
-        if (!contains(permissionChecker, groupId, assignmentId, actionId)) {
+    public static void checkTopLevel(
+            PermissionChecker permissionChecker, long groupId, String actionId)
+            throws PrincipalException.MustHavePermission {
+
+        if (!containsTopLevel(permissionChecker, groupId, actionId)) {
             throw new PrincipalException.MustHavePermission(
-                    permissionChecker, Assignment.class.getName(), assignmentId, actionId);
+                    permissionChecker, TOP_LEVEL_RESOURCE, actionId);
         }
+
     }
 
-    @Override
-    public void check(PermissionChecker permissionChecker, Assignment model, String actionId) throws PortalException {
-        if (Objects.nonNull(model)) {
-            long assignmentId = model.getAssignmentId();
-            long groupId = model.getGroupId();
-            if (!contains(permissionChecker, groupId, assignmentId, actionId)) {
-                throw new PrincipalException.MustHavePermission(
-                        permissionChecker, Assignment.class.getName(), assignmentId, actionId);
-            }
-        }
-        throw new NullPointerException();
-    }
+    public static boolean containsTopLevel(
+            PermissionChecker permissionChecker, long groupId, String actionId) {
 
-    @Override
-    public boolean contains(PermissionChecker permissionChecker, long assignmentId, String actionId) throws PortalException {
-        Assignment assignment = assignmentLocalService.getAssignment(assignmentId);
-        long groupId = assignment.getGroupId();
-        return contains(permissionChecker, groupId, assignmentId, actionId);
-    }
+        _log.info("PermissionChecker : " + permissionChecker.getClass().getName());
+        _log.info("groupId : " + groupId);
+        _log.info("actionId : " + actionId);
 
-    @Override
-    public boolean contains(PermissionChecker permissionChecker, Assignment model, String actionId) throws PortalException {
-        if (Objects.nonNull(model)) {
-            long assignmentId = model.getAssignmentId();
-            long groupId = model.getGroupId();
-            return contains(permissionChecker, groupId, assignmentId, actionId);
-        }
-        return false;
-    }
+        boolean hasPermission = permissionChecker.hasPermission(groupId, TOP_LEVEL_RESOURCE, groupId, actionId);
+        _log.info("hasPermission : " + hasPermission);
 
-    @Override
-    public String getModelName() {
-        return Assignment.class.getName();
-    }
+        return hasPermission;
 
-    @Override
-    public PortletResourcePermission getPortletResourcePermission() {
-        return null;
     }
 
     public static void check(
