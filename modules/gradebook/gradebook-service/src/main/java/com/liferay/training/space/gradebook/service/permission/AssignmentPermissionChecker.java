@@ -29,10 +29,6 @@ public class AssignmentPermissionChecker implements ModelResourcePermission<Assi
     @Reference
     private AssignmentLocalService assignmentLocalService;
 
-   // @Reference(target = "(resource.name=" + "com.liferay.training.space.gradebook" + ")")
-  //  private PortletResourcePermission portletResourcePermission;
-
-
     @Override
     public void check(PermissionChecker permissionChecker, long assignmentId, String actionId) throws PortalException {
         Assignment assignment = assignmentLocalService.getAssignment(assignmentId);
@@ -81,6 +77,25 @@ public class AssignmentPermissionChecker implements ModelResourcePermission<Assi
     @Override
     public PortletResourcePermission getPortletResourcePermission() {
         return null;
+    }
+
+    public static void check(
+            PermissionChecker permissionChecker, long groupId, long assignmentId,
+            String actionId) throws PrincipalException.MustHavePermission {
+
+        _log.info("PermissionChecker : " + permissionChecker.getClass().getName());
+        _log.info("groupId : " + groupId);
+        _log.info("assignmentId : " + assignmentId);
+        _log.info("actionId : " + actionId);
+
+        boolean hasPermission = permissionChecker.hasPermission(groupId, RESOURCE_NAME, assignmentId, actionId);
+        _log.info("hasPermission : " + hasPermission);
+
+        if (!hasPermission) {
+            throw new PrincipalException.MustHavePermission(
+                    permissionChecker, Assignment.class.getName(), assignmentId, actionId);
+        }
+
     }
 
     public static boolean contains(

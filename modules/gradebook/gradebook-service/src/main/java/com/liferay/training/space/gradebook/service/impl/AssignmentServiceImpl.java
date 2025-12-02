@@ -13,18 +13,12 @@
  */
 
 package com.liferay.training.space.gradebook.service.impl;
-
 import com.liferay.portal.kernel.exception.PortalException;
-import com.liferay.portal.kernel.security.auth.PrincipalException;
 import com.liferay.portal.kernel.security.permission.ActionKeys;
-import com.liferay.portal.kernel.security.permission.PermissionChecker;
 import com.liferay.portal.kernel.security.permission.resource.ModelResourcePermission;
 import com.liferay.portal.kernel.service.ServiceContext;
-import com.liferay.portal.kernel.service.permission.PortalPermissionUtil;
 import com.liferay.training.space.gradebook.model.Assignment;
-
 import java.util.List;
-
 import aQute.bnd.annotation.ProviderType;
 import com.liferay.training.space.gradebook.service.base.AssignmentServiceBaseImpl;
 import com.liferay.training.space.gradebook.service.permission.AssignmentPermissionChecker;
@@ -48,31 +42,45 @@ import org.osgi.service.component.annotations.ReferencePolicyOption;
  */
 @ProviderType
 public class AssignmentServiceImpl extends AssignmentServiceBaseImpl {
+
     @Reference(
             policy = ReferencePolicy.DYNAMIC,
             policyOption = ReferencePolicyOption.GREEDY,
             target = "(model.class.name=com.liferay.training.space.gradebook.model.Assignment)"
     )
-    private volatile ModelResourcePermission<Assignment> assignmentPermissionChecker;
+    private ModelResourcePermission<Assignment> assignmentPermissionChecker;
 
 
     public Assignment getAssignment(long assignmentId) throws PortalException {
+
         Assignment assignment = assignmentLocalService.getAssignment(assignmentId);
-        //FIXME : reglage des permission get assignment
-        //assignmentPermissionChecker.check(getPermissionChecker(), assignment.getAssignmentId(), ActionKeys.VIEW);
+        AssignmentPermissionChecker.check(
+                getPermissionChecker(),
+                assignment.getGroupId(),
+                assignment.getAssignmentId(),
+                ActionKeys.VIEW);
         return assignment;
+
     }
 
     public Assignment deleteAssignment(Assignment assignment) throws PortalException {
-        /*assignmentPermissionChecker.check(
+        AssignmentPermissionChecker.check(
                 getPermissionChecker(),
-                assignment.getAssignmentId(), ActionKeys.DELETE);*/
+                assignment.getGroupId(),
+                assignment.getAssignmentId(),
+                ActionKeys.DELETE);
 
         return assignmentLocalService.deleteAssignment(assignment);
     }
 
     public Assignment deleteAssignment(long assignmentId) throws PortalException {
+
         Assignment assignment = assignmentLocalService.getAssignment(assignmentId);
+        AssignmentPermissionChecker.check(
+                getPermissionChecker(),
+                assignment.getGroupId(),
+                assignment.getAssignmentId(),
+                ActionKeys.DELETE);
 
         return assignmentLocalService.deleteAssignment(assignment);
     }
@@ -96,10 +104,12 @@ public class AssignmentServiceImpl extends AssignmentServiceBaseImpl {
             Assignment assignment)
             throws PortalException {
 
-        /*assignmentPermissionChecker.check(
+        AssignmentPermissionChecker.check(
                 getPermissionChecker(),
+                assignment.getGroupId(),
                 assignment.getAssignmentId(),
-                ActionKeys.UPDATE); */
+                ActionKeys.UPDATE);
+
         return assignmentLocalService.updateAssignment(assignment);
     }
 
