@@ -30,3 +30,4 @@
 <%@ page import="java.text.SimpleDateFormat" %>
 <%@ page import="com.liferay.portal.kernel.security.permission.resource.ModelResourcePermission" %>
 <%@ page import="com.liferay.portal.kernel.security.permission.resource.ModelResourcePermissionUtil" %>
+<%@page import="com.liferay.training.space.gradebook.service.permission.AssignmentPermissionChecker"%>

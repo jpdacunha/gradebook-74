@@ -5,7 +5,6 @@
 
 package com.liferay.training.space.gradebook.service;
 
-import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.service.ServiceWrapper;
 import com.liferay.portal.kernel.service.persistence.BasePersistence;
 
@@ -105,11 +104,14 @@ public class AssignmentLocalServiceWrapper
 	 *
 	 * @param assignment the assignment
 	 * @return the assignment that was removed
+	 * @throws PortalException
 	 */
 	@Override
 	public com.liferay.training.space.gradebook.model.Assignment
-		deleteAssignment(
-			com.liferay.training.space.gradebook.model.Assignment assignment) throws PortalException {
+			deleteAssignment(
+				com.liferay.training.space.gradebook.model.Assignment
+					assignment)
+		throws com.liferay.portal.kernel.exception.PortalException {
 
 		return _assignmentLocalService.deleteAssignment(assignment);
 	}

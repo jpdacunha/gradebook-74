@@ -41,7 +41,7 @@
 
                     <liferay-ui:search-container-column-jsp
                             cssClass="table-column-text-end"
-                            path="/assignement_action.jsp"
+                            path="/assignment/assignment_actions.jsp"
                     />
 
                 </liferay-ui:search-container-row>

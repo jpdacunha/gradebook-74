@@ -100,8 +100,11 @@ public class AssignmentLocalServiceUtil {
 	 *
 	 * @param assignment the assignment
 	 * @return the assignment that was removed
+	 * @throws PortalException
 	 */
-	public static Assignment deleteAssignment(Assignment assignment) throws PortalException {
+	public static Assignment deleteAssignment(Assignment assignment)
+		throws PortalException {
+
 		return getService().deleteAssignment(assignment);
 	}
 

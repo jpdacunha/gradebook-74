@@ -1,6 +1,8 @@
 package com.liferay.training.space.gradebook.service.permission;
 
 
+import com.liferay.portal.kernel.log.Log;
+import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.security.auth.PrincipalException;
 import com.liferay.portal.kernel.security.permission.resource.ModelResourcePermission;
 import com.liferay.portal.kernel.security.permission.resource.PortletResourcePermission;
@@ -15,6 +17,8 @@ import java.util.Objects;
 @Component(property = "model.class.name=com.liferay.training.space.gradebook.model.Assignment",
            service = ModelResourcePermission.class)
 public class AssignmentPermissionChecker implements ModelResourcePermission<Assignment> {
+
+    private static final Log _log = LogFactoryUtil.getLog(AssignmentPermissionChecker.class);
 
     private static final String RESOURCE_NAME = Assignment.class.getName();
 
@@ -82,9 +86,15 @@ public class AssignmentPermissionChecker implements ModelResourcePermission<Assi
     public static boolean contains(
             PermissionChecker permissionChecker, long groupId, long assignmentId,
             String actionId) {
+        _log.info("PermissionChecker : " + permissionChecker.getClass().getName());
+        _log.info("groupId : " + groupId);
+        _log.info("assignmentId : " + assignmentId);
+        _log.info("actionId : " + actionId);
 
-        return (permissionChecker.hasPermission(
-                groupId, RESOURCE_NAME, assignmentId, actionId));
+        boolean hasPermission = permissionChecker.hasPermission(groupId, RESOURCE_NAME, assignmentId, actionId);
+        _log.info("hasPermission : " + hasPermission);
+        return hasPermission;
+
     }
 }
 
