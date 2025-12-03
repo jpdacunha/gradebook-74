@@ -8,10 +8,8 @@ import com.liferay.portal.kernel.search.Indexable;
 import com.liferay.portal.kernel.search.IndexableType;
 import com.liferay.portal.kernel.service.ServiceContext;
 import com.liferay.portal.kernel.util.ContentTypes;
-import com.liferay.portal.kernel.util.DateUtil;
 import com.liferay.training.space.gradebook.model.Assignment;
 
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 

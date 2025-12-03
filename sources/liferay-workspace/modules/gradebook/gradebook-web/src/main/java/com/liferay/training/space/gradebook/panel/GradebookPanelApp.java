@@ -8,12 +8,8 @@ package com.liferay.training.space.gradebook.panel;
 import com.liferay.application.list.BasePanelApp;
 import com.liferay.application.list.PanelApp;
 import com.liferay.application.list.constants.PanelCategoryKeys;
-import com.liferay.bookmarks.constants.BookmarksPortletKeys;
-import com.liferay.portal.kernel.exception.PortalException;
-import com.liferay.portal.kernel.model.Group;
 import com.liferay.portal.kernel.model.Portlet;
 
-import com.liferay.portal.kernel.security.permission.PermissionChecker;
 import com.liferay.training.space.gradebook.portlet.GradebookPortletKeys;
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Reference;

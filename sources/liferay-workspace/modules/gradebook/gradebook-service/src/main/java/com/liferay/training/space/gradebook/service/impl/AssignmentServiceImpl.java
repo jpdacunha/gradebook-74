@@ -16,16 +16,12 @@ package com.liferay.training.space.gradebook.service.impl;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.security.permission.ActionKeys;
 import com.liferay.portal.kernel.security.permission.PermissionChecker;
-import com.liferay.portal.kernel.security.permission.resource.ModelResourcePermission;
 import com.liferay.portal.kernel.service.ServiceContext;
 import com.liferay.training.space.gradebook.model.Assignment;
 import java.util.List;
 import aQute.bnd.annotation.ProviderType;
 import com.liferay.training.space.gradebook.service.base.AssignmentServiceBaseImpl;
 import com.liferay.training.space.gradebook.service.permission.AssignmentPermissionChecker;
-import org.osgi.service.component.annotations.Reference;
-import org.osgi.service.component.annotations.ReferencePolicy;
-import org.osgi.service.component.annotations.ReferencePolicyOption;
 
 /**
  * The implementation of the assignment remote service.
