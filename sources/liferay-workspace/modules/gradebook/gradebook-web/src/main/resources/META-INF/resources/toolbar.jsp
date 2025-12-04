@@ -1,10 +1,12 @@
 <%@ taglib uri="http://liferay.com/tld/clay" prefix="clay" %>
 <%@ page import="javax.portlet.PortletURL" %>
+<%@ include file="/init.jsp" %>
 
 <%
-boolean hasAddPermission = (boolean)request.getAttribute("hasAddAssignmentPermission");
-
+Boolean hasAddObj = (Boolean) request.getAttribute("hasAddAssignmentPermission");
+boolean hasAddPermission = (hasAddObj != null ? hasAddObj : false);
 String addURL = "";
+
 
 if (hasAddPermission) {
     PortletURL url = renderResponse.createRenderURL();
@@ -25,10 +27,17 @@ if (hasAddPermission) {
     });
 }
 %>
+<portlet:renderURL var="searchURL">
+    <portlet:param name="mvcRenderCommandName" value="/gradebook/view" />
+</portlet:renderURL>
 
 <clay:management-toolbar
+    clearResultsURL="<%= toolbarContext.getClearResultsURL() %>"
+    searchActionURL="<%= searchURL%>"
+	itemsTotal="<%= toolbarContext.getTotal() %>"
     creationMenu="<%= creationMenu %>"
     searchContainerId="gradebookEntries"
     showSearch="<%= true %>"
     spritemap="<%= themeDisplay.getPathThemeImages() + "/clay/icons.svg" %>"
 />
+

@@ -1,5 +1,15 @@
 <%@ include file="/init.jsp" %>
+<%
+int totalResults = (int) request.getAttribute("entriesCount");
 
+GradebookManagementToolbarDisplayContext toolbarContext =
+    new GradebookManagementToolbarDisplayContext(
+        PortalUtil.getHttpServletRequest(renderRequest),
+        liferayPortletRequest,
+        liferayPortletResponse,
+        totalResults
+    );
+%>
 <div class="container mt-5" style="max-width: 1200px;">
 
     <div class="card shadow-sm mb-4">
@@ -14,9 +24,11 @@
             <liferay-ui:search-container
                 id="gradebookEntries"
                 delta="5"
+                curParam="cur"
+                total="${entriesCount}"
                 emptyResultsMessage="No assignments found">
 
-                <liferay-ui:search-container-results results="${Assignments}" />
+                <liferay-ui:search-container-results  results="${entries}"/>
 
                 <liferay-ui:search-container-row
                         className="com.liferay.training.space.gradebook.model.Assignment"
