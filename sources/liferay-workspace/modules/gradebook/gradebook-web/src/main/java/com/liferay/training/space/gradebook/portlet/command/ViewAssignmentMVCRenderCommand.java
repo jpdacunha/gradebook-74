@@ -13,6 +13,7 @@ import com.liferay.training.space.gradebook.model.Assignment;
 import com.liferay.training.space.gradebook.portlet.GradebookPortletKeys;
 import com.liferay.training.space.gradebook.service.AssignmentLocalService;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 import javax.portlet.PortletException;
 import javax.portlet.RenderRequest;
@@ -43,9 +44,10 @@ public class ViewAssignmentMVCRenderCommand implements MVCRenderCommand {
         ThemeDisplay themeDisplay = (ThemeDisplay) request.getAttribute(WebKeys.THEME_DISPLAY);
         long groupId = themeDisplay.getScopeGroupId();
         boolean hasAddAssignmentPermission = AssignmentPermissionChecker.containsTopLevel(themeDisplay.getPermissionChecker(), groupId, AssignmentPermissionChecker.ADD_ASSIGNMENT);
-
         int cur = ParamUtil.getInteger(request, "cur", 1);
         int delta = ParamUtil.getInteger(request, "delta", 5);
+        String orderByCol = ParamUtil.getString(request, "orderByCol", "title");
+
         int start = (cur - 1) * delta;
         int end = start + delta;
         int count;
@@ -82,6 +84,13 @@ public class ViewAssignmentMVCRenderCommand implements MVCRenderCommand {
             // ----- NORMAL MODE -----
             entries = assignmentLocalService.getAssignmentsByGroupId(groupId, start, end);
             count = assignmentLocalService.getAssignmentsCountByGroupId(groupId);
+            entries = new ArrayList<>(entries);
+            if (orderByCol.equals("title")) {
+                entries.sort(Comparator.comparing(a -> a.getTitle(themeDisplay.getLocale()).toLowerCase()));
+            }
+            else if (orderByCol.equals("description")) {
+                entries.sort(Comparator.comparing(a -> a.getDescription().toLowerCase()));
+            }
         }
 
         request.setAttribute("entries", entries);

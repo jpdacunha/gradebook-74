@@ -10,7 +10,10 @@ import com.liferay.training.space.gradebook.model.Assignment;
 import com.liferay.training.space.gradebook.service.AssignmentLocalService;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
+import java.util.Locale;
 
 
 import javax.portlet.Portlet;
@@ -49,6 +52,7 @@ import org.osgi.service.component.annotations.ReferenceCardinality;
                 "javax.portlet.version=3.0",
                 "mvc.command.name.default=/gradebook/view",
 
+
         },
         service = Portlet.class
 )
@@ -58,14 +62,15 @@ public class GradebookPortlet extends MVCPortlet {
     public void doView(
             RenderRequest renderRequest, RenderResponse renderResponse)
             throws IOException, PortletException {
+        ThemeDisplay themeDisplay =
+                (ThemeDisplay) renderRequest.getAttribute(WebKeys.THEME_DISPLAY);
 
         int cur = ParamUtil.getInteger(renderRequest, "cur", 1);
         int delta = ParamUtil.getInteger(renderRequest, "delta", 5);
 
         int start = (cur - 1) * delta;
         int end = start + delta;
-        ThemeDisplay themeDisplay =
-                (ThemeDisplay) renderRequest.getAttribute(WebKeys.THEME_DISPLAY);
+
 
         long groupId = themeDisplay.getScopeGroupId();
 

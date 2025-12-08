@@ -37,6 +37,9 @@ if (hasAddPermission) {
 	itemsTotal="<%= toolbarContext.getTotal() %>"
     creationMenu="<%= creationMenu %>"
     searchContainerId="gradebookEntries"
+    viewTypeItems="<%= toolbarContext.getViewTypeItems() %>"
+    filterDropdownItems="<%= toolbarContext.getFilterDropdownItems() %>"
+    actionDropdownItems="<%= toolbarContext.getActionDropdownItems() %>"
     showSearch="<%= true %>"
     spritemap="<%= themeDisplay.getPathThemeImages() + "/clay/icons.svg" %>"
 />

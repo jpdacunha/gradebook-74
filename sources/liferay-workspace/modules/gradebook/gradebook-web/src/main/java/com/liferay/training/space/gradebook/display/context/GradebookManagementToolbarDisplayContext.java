@@ -1,12 +1,20 @@
 package com.liferay.training.space.gradebook.display.context;
 
+import com.liferay.frontend.taglib.clay.servlet.taglib.util.DropdownItem;
+import com.liferay.frontend.taglib.clay.servlet.taglib.util.DropdownItemList;
+import com.liferay.frontend.taglib.clay.servlet.taglib.util.DropdownItemListBuilder;
+import com.liferay.frontend.taglib.clay.servlet.taglib.util.ViewTypeItemList;
 import com.liferay.portal.kernel.portlet.LiferayPortletRequest;
 import com.liferay.portal.kernel.portlet.LiferayPortletResponse;
+import com.liferay.portal.kernel.portlet.PortletURLUtil;
+import com.liferay.portal.kernel.portlet.url.builder.PortletURLBuilder;
 import com.liferay.portal.kernel.util.ParamUtil;
 import com.liferay.portal.kernel.util.PortalUtil;
-import com.liferay.portal.kernel.dao.search.SearchContainer;
 
+import javax.portlet.PortletURL;
 import javax.servlet.http.HttpServletRequest;
+import java.util.Collections;
+import java.util.List;
 
 public class GradebookManagementToolbarDisplayContext {
 
@@ -21,7 +29,7 @@ public class GradebookManagementToolbarDisplayContext {
             LiferayPortletRequest liferayPortletRequest,
             LiferayPortletResponse liferayPortletResponse,
             int totalResults
-            ) {
+    ) {
 
         _httpServletRequest = httpServletRequest;
         _liferayPortletRequest = liferayPortletRequest;
@@ -30,12 +38,21 @@ public class GradebookManagementToolbarDisplayContext {
 
     }
 
-    public String getSearchActionURL() {
-        return PortalUtil.getCurrentURL(_httpServletRequest);
+    /**
+     * Search input URL
+     */
+    public PortletURL getSearchActionURL() {
+        return PortletURLBuilder
+                .createRenderURL(_liferayPortletResponse)
+                .buildPortletURL();
     }
 
     public String getKeywords() {
         return ParamUtil.getString(_httpServletRequest, "keywords", "");
+    }
+
+    public List<DropdownItem> getActionDropdownItems() {
+        return Collections.emptyList();
     }
 
     public String getResultsSummary() {
@@ -59,7 +76,80 @@ public class GradebookManagementToolbarDisplayContext {
     public boolean isShowSearch() {
         return true;
     }
+
     public int getTotal() {
         return total;
+    }
+
+    public String getFilterURL() {
+        return _liferayPortletResponse.createRenderURL().toString();
+    }
+
+    public List<DropdownItem> getFilterDropdownItems() {
+
+        String currentOrder = ParamUtil.getString(_httpServletRequest, "orderByCol", "");
+
+        String baseURL = PortletURLBuilder.createRenderURL(
+                        _liferayPortletResponse
+                ).setMVCRenderCommandName("/gradebook/view")
+                .buildString();
+
+        return new DropdownItemList() {{
+            add(dropdownItem -> {
+                dropdownItem.setLabel("Sort by Title");
+                dropdownItem.setActive(currentOrder.equals("title"));
+                dropdownItem.setHref(_getSearchURL(), "orderByCol", "title");
+            });
+
+            add(dropdownItem -> {
+                dropdownItem.setLabel("Sort by Description");
+                dropdownItem.setActive(currentOrder.equals("description"));
+                dropdownItem.setHref(_getSearchURL(), "orderByCol", "description");
+            });
+        }};
+    }
+
+    public String getOrderByType() {
+        return ParamUtil.getString(_httpServletRequest, "orderByType", "asc");
+    }
+
+    private PortletURL _getSearchURL() {
+        PortletURL url = _liferayPortletResponse.createRenderURL();
+        url.setParameter("mvcRenderCommandName", "/gradebook/view");
+        return url;
+    }
+
+    public boolean isShowSort() {
+        return true;
+    }
+
+    public ViewTypeItemList getViewTypeItems() {
+
+        PortletURL currentPortletURL =
+                PortletURLUtil.getCurrent(_liferayPortletRequest, _liferayPortletResponse);
+        return new ViewTypeItemList() {
+            {
+                addCardViewTypeItem(
+                        item -> {
+                            item.setActive("cards".equals(getDisplayStyle()));
+                            item.setHref(currentPortletURL, "displayStyle", "cards");
+                        });
+
+                addListViewTypeItem(
+                        item -> {
+                            item.setActive("list".equals(getDisplayStyle()));
+                            item.setHref(currentPortletURL, "displayStyle", "list");
+                        });
+
+                addTableViewTypeItem(
+                        item -> {
+                            item.setActive("table".equals(getDisplayStyle()));
+                            item.setHref(currentPortletURL, "displayStyle", "table");
+                        });
+            }
+        };
+    }
+    private String getDisplayStyle() {
+        return ParamUtil.getString(_httpServletRequest, "displayStyle", "table");
     }
 }
