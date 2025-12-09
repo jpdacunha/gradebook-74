@@ -34,8 +34,10 @@ import org.osgi.service.component.annotations.Reference;
 
 @Component(
         immediate = true,
-        service = Indexer.class
-)
+        service = Indexer.class,
+        property = "indexer.class.name=com.liferay.training.space.gradebook.model.Assignment"
+
+        )
 public class AssignmentIndexer extends BaseIndexer<Assignment> {
 
     public static final String CLASS_NAME = Assignment.class.getName();

@@ -1,7 +1,10 @@
 <%@ include file="/init.jsp" %>
+<%@ taglib uri="http://liferay.com/tld/ui" prefix="liferay-ui" %>
 <div class="container mt-2" style="max-width: 1200px;">
 <div class="card-body p-0">
+
 <liferay-ui:search-container
+        rowChecker="<%= new com.liferay.portal.kernel.dao.search.RowChecker(renderResponse) %>"
         id="gradebookEntries"
         delta="5"
         curParam="cur"
@@ -13,12 +16,16 @@
     <liferay-ui:search-container-row
             className="com.liferay.training.space.gradebook.model.Assignment"
             modelVar="assignment"
-            keyProperty="assignmentId">
+            keyProperty="assignmentId"
+            rowIdProperty="assignmentId">
+
 
         <liferay-ui:search-container-column-text
                 name="Title"
                 value="${assignment.getTitle(locale)}" />
-
+       <liferay-ui:search-container-column-text
+                name="Created by"
+                value="${assignment.getUserName()}" />
         <liferay-ui:search-container-column-text
                 name="Description"
                 value="${assignment.getDescription()}" />

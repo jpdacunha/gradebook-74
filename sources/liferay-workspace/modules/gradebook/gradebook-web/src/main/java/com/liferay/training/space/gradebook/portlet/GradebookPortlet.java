@@ -13,7 +13,6 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
-import java.util.Locale;
 
 
 import javax.portlet.Portlet;
@@ -51,8 +50,6 @@ import org.osgi.service.component.annotations.ReferenceCardinality;
                 "javax.portlet.supported-public-render-parameter=tag",
                 "javax.portlet.version=3.0",
                 "mvc.command.name.default=/gradebook/view",
-
-
         },
         service = Portlet.class
 )
@@ -71,6 +68,19 @@ public class GradebookPortlet extends MVCPortlet {
         int start = (cur - 1) * delta;
         int end = start + delta;
 
+        String orderByCol = ParamUtil.getString(renderRequest, "orderByCol", "title");
+        String orderByType = ParamUtil.getString(renderRequest, "orderByType", "asc");
+
+        boolean asc = orderByType.equalsIgnoreCase("asc");
+        Comparator<Assignment> comparator;
+
+        comparator = Comparator.comparing(
+                a -> a.getTitle(themeDisplay.getLocale()).toLowerCase()
+        );
+
+        if (!asc) {
+            comparator = comparator.reversed();
+        }
 
         long groupId = themeDisplay.getScopeGroupId();
 
@@ -78,7 +88,15 @@ public class GradebookPortlet extends MVCPortlet {
 
         List<Assignment> results = _assignmentLocalService.getAssignmentsByGroupId(groupId, start, end);
 
+        results = new ArrayList<>(results);
+
+        results.sort(comparator);
+
         renderRequest.setAttribute("entries", results);
+
+        renderRequest.setAttribute("orderByCol", orderByCol);
+
+        renderRequest.setAttribute("orderByType", orderByType);
 
         renderRequest.setAttribute("entriesCount", _assignmentLocalService.getAssignmentsCountByGroupId(groupId));
 

@@ -1,14 +1,9 @@
 package com.liferay.training.space.gradebook.portlet.command;
 
-import com.liferay.portal.kernel.portlet.bridges.mvc.MVCPortlet;
 import com.liferay.portal.kernel.portlet.bridges.mvc.MVCRenderCommand;
 import com.liferay.portal.kernel.search.*;
 import com.liferay.portal.kernel.theme.ThemeDisplay;
-import com.liferay.portal.kernel.util.GetterUtil;
-import com.liferay.portal.kernel.util.ParamUtil;
-import com.liferay.portal.kernel.util.PortalUtil;
-import com.liferay.portal.kernel.util.WebKeys;
-import com.liferay.training.space.gradebook.display.context.GradebookManagementToolbarDisplayContext;
+import com.liferay.portal.kernel.util.*;
 import com.liferay.training.space.gradebook.model.Assignment;
 import com.liferay.training.space.gradebook.portlet.GradebookPortletKeys;
 import com.liferay.training.space.gradebook.service.AssignmentLocalService;
@@ -18,7 +13,6 @@ import java.util.List;
 import javax.portlet.PortletException;
 import javax.portlet.RenderRequest;
 import javax.portlet.RenderResponse;
-import javax.servlet.http.HttpServletRequest;
 
 import com.liferay.training.space.gradebook.service.permission.AssignmentPermissionChecker;
 import org.osgi.service.component.annotations.Component;
@@ -46,12 +40,29 @@ public class ViewAssignmentMVCRenderCommand implements MVCRenderCommand {
         boolean hasAddAssignmentPermission = AssignmentPermissionChecker.containsTopLevel(themeDisplay.getPermissionChecker(), groupId, AssignmentPermissionChecker.ADD_ASSIGNMENT);
         int cur = ParamUtil.getInteger(request, "cur", 1);
         int delta = ParamUtil.getInteger(request, "delta", 5);
-        String orderByCol = ParamUtil.getString(request, "orderByCol", "title");
 
         int start = (cur - 1) * delta;
         int end = start + delta;
+
+
+        // ----------------------------------------------------------
+        // 📌 TRI : orderByCol (title) et orderByType (asc/desc)
+        // ----------------------------------------------------------
+        String orderByCol = ParamUtil.getString(request, "orderByCol", "");
+        String orderByType = ParamUtil.getString(request, "orderByType", "asc");
         int count;
         List<Assignment> entries;
+        boolean asc = orderByType.equalsIgnoreCase("asc");
+        Comparator<Assignment> comparator;
+
+            comparator = Comparator.comparing(
+                    a -> a.getTitle(themeDisplay.getLocale()).toLowerCase()
+            );
+
+        if (!asc) {
+            comparator = comparator.reversed();
+        }
+
         if (!keywords.isEmpty()) {
             // ----- SEARCH MODE -----
             SearchContext searchContext = SearchContextFactory.getInstance(
@@ -77,7 +88,8 @@ public class ViewAssignmentMVCRenderCommand implements MVCRenderCommand {
                 Assignment entry = assignmentLocalService.fetchAssignment(pk);
                 if (entry != null) entries.add(entry);
             }
-
+            // 🔥 important : applique aussi le tri en mode SEARCH
+            entries.sort(comparator);
             count = hits.getLength();
         }
         else {
@@ -85,18 +97,16 @@ public class ViewAssignmentMVCRenderCommand implements MVCRenderCommand {
             entries = assignmentLocalService.getAssignmentsByGroupId(groupId, start, end);
             count = assignmentLocalService.getAssignmentsCountByGroupId(groupId);
             entries = new ArrayList<>(entries);
-            if (orderByCol.equals("title")) {
-                entries.sort(Comparator.comparing(a -> a.getTitle(themeDisplay.getLocale()).toLowerCase()));
-            }
-            else if (orderByCol.equals("description")) {
-                entries.sort(Comparator.comparing(a -> a.getDescription().toLowerCase()));
-            }
+            // 🔥 appliquer tri
+            entries.sort(comparator);
         }
 
         request.setAttribute("entries", entries);
         request.setAttribute("entriesCount", count);
         request.setAttribute("hasAddAssignmentPermission", hasAddAssignmentPermission);
 
+        request.setAttribute("orderByCol", orderByCol);
+        request.setAttribute("orderByType", orderByType);
 
         return "/view.jsp";
     }

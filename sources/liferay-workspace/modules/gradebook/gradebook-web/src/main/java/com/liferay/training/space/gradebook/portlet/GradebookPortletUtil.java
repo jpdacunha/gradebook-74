@@ -25,7 +25,6 @@ public class GradebookPortletUtil {
 		if (dueDateString == null || dueDateString.isEmpty()) {
 			return null;
 		}
-
 		try {
 			SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 			return sdf.parse(dueDateString);

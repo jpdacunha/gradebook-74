@@ -6,6 +6,7 @@ import com.liferay.frontend.taglib.clay.servlet.taglib.util.DropdownItemListBuil
 import com.liferay.frontend.taglib.clay.servlet.taglib.util.ViewTypeItemList;
 import com.liferay.portal.kernel.portlet.LiferayPortletRequest;
 import com.liferay.portal.kernel.portlet.LiferayPortletResponse;
+import com.liferay.portal.kernel.portlet.LiferayPortletURL;
 import com.liferay.portal.kernel.portlet.PortletURLUtil;
 import com.liferay.portal.kernel.portlet.url.builder.PortletURLBuilder;
 import com.liferay.portal.kernel.util.ParamUtil;
@@ -51,9 +52,9 @@ public class GradebookManagementToolbarDisplayContext {
         return ParamUtil.getString(_httpServletRequest, "keywords", "");
     }
 
-    public List<DropdownItem> getActionDropdownItems() {
-        return Collections.emptyList();
-    }
+//    public List<DropdownItem> getActionDropdownItems() {
+//        return Collections.emptyList();
+//    }
 
     public String getResultsSummary() {
         String keywords = getKeywords();
@@ -70,7 +71,14 @@ public class GradebookManagementToolbarDisplayContext {
     }
 
     public String getClearResultsURL() {
-        return PortalUtil.getCurrentURL(_httpServletRequest).replaceAll("keywords=[^&]*", "");
+
+        LiferayPortletURL url =
+                (LiferayPortletURL) _liferayPortletResponse.createRenderURL();
+
+        url.setParameter("mvcRenderCommandName", "/gradebook/view");
+        url.setParameter("displayStyle", getDisplayStyle());
+
+        return url.toString();
     }
 
     public boolean isShowSearch() {
@@ -152,4 +160,37 @@ public class GradebookManagementToolbarDisplayContext {
     private String getDisplayStyle() {
         return ParamUtil.getString(_httpServletRequest, "displayStyle", "table");
     }
+
+    public List<DropdownItem> getActionDropdownItems() {
+        return new DropdownItemList() {{
+            add(item -> {
+                item.setLabel("Delete");
+                item.setIcon("trash");
+                item.putData("action", "deleteAssignments");
+            });
+        }};
+    }
+
+    public String getComponentId() {
+        return "gradebookToolbar";
+    }
+
+
+    public String getOrderByCol() {
+        return ParamUtil.getString(_httpServletRequest, "orderByCol", "title");
+    }
+
+
+    public String getSortingURL() {
+        return PortletURLBuilder.createRenderURL(_liferayPortletResponse)
+                .setMVCRenderCommandName("/gradebook/view")
+                .setParameter("orderByCol", getOrderByCol())
+                .setParameter(
+                        "orderByType",
+                        getOrderByType().equals("asc") ? "desc" : "asc"
+                )
+                .buildString();
+    }
+
+
 }
