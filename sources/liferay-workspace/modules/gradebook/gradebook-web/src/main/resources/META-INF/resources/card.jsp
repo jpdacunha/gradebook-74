@@ -1,7 +1,9 @@
 <%@ include file="/init.jsp" %>
 <div class="container mt-2" style="max-width: 1200px;">
 
+
 <liferay-ui:search-container
+    iteratorURL="<%= iteratorURL %>"
     id="gradebookEntries"
     delta="5"
     curParam="cur"

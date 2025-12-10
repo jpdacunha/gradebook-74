@@ -1,10 +1,15 @@
 
 package com.liferay.training.space.gradebook.portlet;
 
+import com.liferay.portal.kernel.portlet.PortalPreferences;
+import com.liferay.portal.kernel.portlet.PortletPreferencesFactoryUtil;
 import com.liferay.portal.kernel.portlet.bridges.mvc.MVCPortlet;
+import com.liferay.portal.kernel.search.*;
 import com.liferay.portal.kernel.theme.ThemeDisplay;
 
+import com.liferay.portal.kernel.util.GetterUtil;
 import com.liferay.portal.kernel.util.ParamUtil;
+import com.liferay.portal.kernel.util.PortalUtil;
 import com.liferay.portal.kernel.util.WebKeys;
 import com.liferay.training.space.gradebook.model.Assignment;
 import com.liferay.training.space.gradebook.service.AssignmentLocalService;
@@ -13,6 +18,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
+import java.util.Objects;
 
 
 import javax.portlet.Portlet;
@@ -55,58 +61,101 @@ import org.osgi.service.component.annotations.ReferenceCardinality;
 )
 public class GradebookPortlet extends MVCPortlet {
 
+    @Reference(cardinality = ReferenceCardinality.MANDATORY)
+    protected AssignmentLocalService assignmentLocalService;
+
     @Override
-    public void doView(
-            RenderRequest renderRequest, RenderResponse renderResponse)
-            throws IOException, PortletException {
-        ThemeDisplay themeDisplay =
-                (ThemeDisplay) renderRequest.getAttribute(WebKeys.THEME_DISPLAY);
+    public void doView(RenderRequest renderRequest, RenderResponse renderResponse) throws IOException, PortletException {
 
-        int cur = ParamUtil.getInteger(renderRequest, "cur", 1);
-        int delta = ParamUtil.getInteger(renderRequest, "delta", 5);
+        ThemeDisplay themeDisplay = (ThemeDisplay) renderRequest.getAttribute(WebKeys.THEME_DISPLAY);
 
-        int start = (cur - 1) * delta;
-        int end = start + delta;
-
-        String orderByCol = ParamUtil.getString(renderRequest, "orderByCol", "title");
-        String orderByType = ParamUtil.getString(renderRequest, "orderByType", "asc");
-
-        boolean asc = orderByType.equalsIgnoreCase("asc");
-        Comparator<Assignment> comparator;
-
-        comparator = Comparator.comparing(
-                a -> a.getTitle(themeDisplay.getLocale()).toLowerCase()
-        );
-
-        if (!asc) {
-            comparator = comparator.reversed();
-        }
 
         long groupId = themeDisplay.getScopeGroupId();
 
         boolean hasAddAssignmentPermission = AssignmentPermissionChecker.containsTopLevel(themeDisplay.getPermissionChecker(), groupId, AssignmentPermissionChecker.ADD_ASSIGNMENT);
 
-        List<Assignment> results = _assignmentLocalService.getAssignmentsByGroupId(groupId, start, end);
+        String keywords = ParamUtil.getString(renderRequest, "keywords");
 
-        results = new ArrayList<>(results);
+        PortalPreferences portalPreferences = PortletPreferencesFactoryUtil.getPortalPreferences(renderRequest);
 
-        results.sort(comparator);
+       // Lire cur depuis l'URL
+        int cur = ParamUtil.getInteger(renderRequest, "cur", -1);
 
-        renderRequest.setAttribute("entries", results);
+        if (cur == -1) {
+            // Si cur n'est PAS dans l'URL → on le récupère depuis la session
+            cur = GetterUtil.getInteger(portalPreferences.getValue(GradebookPortletKeys.PORTLET_NAME, "cur"), 1);
+        }
+        else {
+            // Si cur est dans l'URL → on le sauvegarde
+            portalPreferences.setValue(GradebookPortletKeys.PORTLET_NAME, "cur", String.valueOf(cur));
+        }
 
+        String displayStyle = ParamUtil.getString(renderRequest,"displayStyle","table");
+
+
+        int delta = ParamUtil.getInteger(renderRequest, "delta", 5);
+        int start = (cur - 1) * delta;
+        int end = start + delta;
+
+
+        String orderByCol = ParamUtil.getString(renderRequest, "orderByCol", "title");
+        String orderByType = ParamUtil.getString(renderRequest, "orderByType", "asc");
+
+        int count;
+        List<Assignment> entries;
+        boolean asc = orderByType.equalsIgnoreCase("asc");
+        Comparator<Assignment> comparator;
+
+        comparator = Comparator.comparing(a -> a.getTitle(themeDisplay.getLocale()).toLowerCase());
+
+        if (!asc) {
+            comparator = comparator.reversed();
+        }
+
+        if (!keywords.isEmpty()) {
+            // ----- SEARCH MODE -----
+            SearchContext searchContext = SearchContextFactory.getInstance(PortalUtil.getHttpServletRequest(renderRequest));
+            searchContext.setKeywords(keywords);
+            searchContext.setCompanyId(themeDisplay.getCompanyId());
+
+            Indexer<Assignment> indexer = IndexerRegistryUtil.getIndexer(Assignment.class);
+
+            Hits hits;
+
+            try {
+                hits = indexer.search(searchContext);
+            } catch (SearchException e) {
+                throw new PortletException(e);
+            }
+
+            entries = new ArrayList<>();
+            for (Document doc : hits.getDocs()) {
+                long pk = GetterUtil.getLong(doc.get(Field.ENTRY_CLASS_PK));
+                Assignment entry = assignmentLocalService.fetchAssignment(pk);
+                if (entry != null) entries.add(entry);
+            }
+            // 🔥 important : applique aussi le tri en mode SEARCH
+            entries.sort(comparator);
+            count = hits.getLength();
+        } else {
+            // ----- NORMAL MODE -----
+            entries = assignmentLocalService.getAssignmentsByGroupId(groupId, start, end);
+            count = assignmentLocalService.getAssignmentsCountByGroupId(groupId);
+            entries = new ArrayList<>(entries);
+            // 🔥 appliquer tri
+            entries.sort(comparator);
+        }
+        renderRequest.setAttribute("displayStyle", displayStyle);
+        renderRequest.setAttribute("cur", cur);
+        renderRequest.setAttribute("entries", entries);
         renderRequest.setAttribute("orderByCol", orderByCol);
-
         renderRequest.setAttribute("orderByType", orderByType);
-
-        renderRequest.setAttribute("entriesCount", _assignmentLocalService.getAssignmentsCountByGroupId(groupId));
-
+        renderRequest.setAttribute("entriesCount", count);
         renderRequest.setAttribute("hasAddAssignmentPermission", hasAddAssignmentPermission);
 
-        super.doView(renderRequest, renderResponse);
+        include("/view.jsp", renderRequest, renderResponse);
     }
 
-    @Reference(cardinality = ReferenceCardinality.MANDATORY)
-    protected AssignmentLocalService _assignmentLocalService;
 }
 
 

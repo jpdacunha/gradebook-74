@@ -7,9 +7,6 @@ Boolean hasAddObj = (Boolean) request.getAttribute("hasAddAssignmentPermission")
 boolean hasAddPermission = (hasAddObj != null ? hasAddObj : false);
 String addURL = "";
 
-
-
-
 if (hasAddPermission) {
     PortletURL url = renderResponse.createRenderURL();
     url.setParameter("mvcRenderCommandName", "/gradebook/assignment/edit");
@@ -29,18 +26,14 @@ if (hasAddPermission) {
     });
 }
 %>
-<portlet:renderURL var="searchURL">
-    <portlet:param name="mvcRenderCommandName" value="/gradebook/view" />
-</portlet:renderURL>
+
 
 <clay:management-toolbar
     componentId="gradebookToolbar"
-    clearResultsURL="<%= toolbarContext.getClearResultsURL() %>"
-    searchActionURL="<%= searchURL%>"
-
+    searchActionURL="<%= toolbarContext.getSearchActionURL().toString() %>"
+    clearResultsURL="<%= toolbarContext.getClearResultsURL().toString() %>"
     sortingOrder="<%= orderByType %>"
     sortingURL="<%= sortingURL.toString() %>"
-
 	itemsTotal="<%= toolbarContext.getTotal() %>"
     creationMenu="<%= creationMenu %>"
     searchContainerId="gradebookEntries"

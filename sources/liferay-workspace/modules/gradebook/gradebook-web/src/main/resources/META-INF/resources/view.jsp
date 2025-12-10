@@ -1,13 +1,21 @@
 <%@ include file="/init.jsp" %>
 <%
 int totalResults = (int) request.getAttribute("entriesCount");
-String displayStyle = ParamUtil.getString(request, "displayStyle", "table");
 String orderByCol = ParamUtil.getString(request, "orderByCol", "title");
+String cur = ParamUtil.getString(request, "cur", "1");
 String orderByType = ParamUtil.getString(request, "orderByType", "asc");
 PortletURL sortingURL = renderResponse.createRenderURL();
 sortingURL.setParameter("mvcRenderCommandName", "/gradebook/view");
 sortingURL.setParameter("orderByCol", orderByCol);
 sortingURL.setParameter("orderByType", orderByType.equals("asc") ? "desc" : "asc");
+sortingURL.setParameter("cur", cur);
+
+String displayStyle = (String) renderRequest.getAttribute("displayStyle");
+
+PortletURL iteratorURL = renderResponse.createRenderURL();
+iteratorURL.setParameter("mvcRenderCommandName", "/gradebook/view");
+iteratorURL.setParameter("displayStyle", displayStyle);
+
 
 GradebookManagementToolbarDisplayContext toolbarContext =
     new GradebookManagementToolbarDisplayContext(
@@ -17,7 +25,6 @@ GradebookManagementToolbarDisplayContext toolbarContext =
         totalResults
     );
 %>
-
     <%@ include file="/toolbar.jsp" %>
     <c:choose>
         <c:when test="<%= displayStyle.equals("cards") %>">
