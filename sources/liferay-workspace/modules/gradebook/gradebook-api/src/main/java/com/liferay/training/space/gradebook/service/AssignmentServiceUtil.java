@@ -78,10 +78,12 @@ public class AssignmentServiceUtil {
 		return getService().getOSGiServiceIdentifier();
 	}
 
-	public static Assignment updateAssignment(Assignment assignment)
+	public static Assignment updateAssignment(
+			Assignment assignment,
+			com.liferay.portal.kernel.service.ServiceContext serviceContext)
 		throws PortalException {
 
-		return getService().updateAssignment(assignment);
+		return getService().updateAssignment(assignment, serviceContext);
 	}
 
 	public static AssignmentService getService() {

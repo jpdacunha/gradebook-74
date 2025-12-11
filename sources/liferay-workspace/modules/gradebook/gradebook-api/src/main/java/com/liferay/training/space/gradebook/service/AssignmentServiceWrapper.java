@@ -93,10 +93,11 @@ public class AssignmentServiceWrapper
 	public com.liferay.training.space.gradebook.model.Assignment
 			updateAssignment(
 				com.liferay.training.space.gradebook.model.Assignment
-					assignment)
+					assignment,
+				com.liferay.portal.kernel.service.ServiceContext serviceContext)
 		throws com.liferay.portal.kernel.exception.PortalException {
 
-		return _assignmentService.updateAssignment(assignment);
+		return _assignmentService.updateAssignment(assignment, serviceContext);
 	}
 
 	@Override

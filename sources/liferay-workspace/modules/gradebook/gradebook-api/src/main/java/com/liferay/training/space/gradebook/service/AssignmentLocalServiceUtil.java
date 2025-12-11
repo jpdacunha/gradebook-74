@@ -273,6 +273,12 @@ public class AssignmentLocalServiceUtil {
 		return getService().getAssignments(start, end);
 	}
 
+	public static List<Assignment> getAssignmentsByCategory(long categoryId)
+		throws PortalException {
+
+		return getService().getAssignmentsByCategory(categoryId);
+	}
+
 	public static List<Assignment> getAssignmentsByGroupId(long groupId) {
 		return getService().getAssignmentsByGroupId(groupId);
 	}
@@ -325,6 +331,10 @@ public class AssignmentLocalServiceUtil {
 	 */
 	public static int getAssignmentsCount() {
 		return getService().getAssignmentsCount();
+	}
+
+	public static int getAssignmentsCountByCategory(long categoryId) {
+		return getService().getAssignmentsCountByCategory(categoryId);
 	}
 
 	public static int getAssignmentsCountByGroupId(long groupId) {

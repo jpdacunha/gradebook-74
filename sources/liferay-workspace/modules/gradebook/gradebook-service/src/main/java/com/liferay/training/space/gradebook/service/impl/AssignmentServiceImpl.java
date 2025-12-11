@@ -87,7 +87,7 @@ public class AssignmentServiceImpl extends AssignmentServiceBaseImpl {
     }
 
     public Assignment updateAssignment(
-            Assignment assignment)
+            Assignment assignment, ServiceContext serviceContext)
             throws PortalException {
 
         AssignmentPermissionChecker.check(
@@ -96,7 +96,7 @@ public class AssignmentServiceImpl extends AssignmentServiceBaseImpl {
                 assignment.getAssignmentId(),
                 ActionKeys.UPDATE);
 
-        return assignmentLocalService.updateAssignment(assignment);
+        return assignmentLocalService.updateAssignment(assignment, serviceContext);
     }
 
     public List<Assignment> getAssignmentsByGroupId(long groupId) {

@@ -2,6 +2,8 @@ package com.liferay.training.space.gradebook.portlet.command;
 
 import com.liferay.portal.kernel.portlet.bridges.mvc.BaseMVCActionCommand;
 import com.liferay.portal.kernel.portlet.bridges.mvc.MVCActionCommand;
+import com.liferay.portal.kernel.service.ServiceContext;
+import com.liferay.portal.kernel.service.ServiceContextFactory;
 import com.liferay.portal.kernel.servlet.SessionMessages;
 import com.liferay.portal.kernel.util.ParamUtil;
 import com.liferay.training.space.gradebook.model.Assignment;
@@ -43,8 +45,10 @@ public class EditAssignmentMVCActionCommand extends BaseMVCActionCommand {
 		List<String> errors = new ArrayList<>();
 		
 		if (AssignmentValidator.isAssignmentValid(assignment, errors)) {
-
-			_assignmentService.updateAssignment(assignment);
+			// 🔥 Récupération du ServiceContext contenant les catégories
+			ServiceContext serviceContext = ServiceContextFactory.getInstance(
+					Assignment.class.getName(), actionRequest);
+			_assignmentService.updateAssignment(assignment, serviceContext);
 
 			SessionMessages.add(actionRequest, "assignment-updated");
 

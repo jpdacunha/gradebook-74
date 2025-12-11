@@ -258,6 +258,10 @@ public interface AssignmentLocalService
 	public List<Assignment> getAssignments(int start, int end);
 
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public List<Assignment> getAssignmentsByCategory(long categoryId)
+		throws PortalException;
+
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public List<Assignment> getAssignmentsByGroupId(long groupId);
 
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
@@ -300,6 +304,9 @@ public interface AssignmentLocalService
 	 */
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public int getAssignmentsCount();
+
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public int getAssignmentsCountByCategory(long categoryId);
 
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public int getAssignmentsCountByGroupId(long groupId);

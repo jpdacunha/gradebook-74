@@ -1,6 +1,7 @@
 
 package com.liferay.training.space.gradebook.portlet;
 
+import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.portlet.PortalPreferences;
 import com.liferay.portal.kernel.portlet.PortletPreferencesFactoryUtil;
 import com.liferay.portal.kernel.portlet.bridges.mvc.MVCPortlet;
@@ -51,7 +52,6 @@ import org.osgi.service.component.annotations.ReferenceCardinality;
                 "javax.portlet.name=" + GradebookPortletKeys.PORTLET_NAME,
                 "javax.portlet.resource-bundle=content.Language",
                 "javax.portlet.security-role-ref=power-user,user",
-                "javax.portlet.supported-public-render-parameter=categoryId",
                 "javax.portlet.supported-public-render-parameter=resetCur",
                 "javax.portlet.supported-public-render-parameter=tag",
                 "javax.portlet.version=3.0",
@@ -145,6 +145,45 @@ public class GradebookPortlet extends MVCPortlet {
             // 🔥 appliquer tri
             entries.sort(comparator);
         }
+
+        long categoryId = ParamUtil.getLong(renderRequest, "categoryId");
+        String categoryIdParam = renderRequest.getParameter("categoryId");
+
+       // Reset si pas dans l'URL
+        if (categoryIdParam == null) {
+            categoryId = 0;
+        }
+
+         // Mode filtré
+        if (categoryId > 0) {
+
+            List<Assignment> filtered = null;
+            try {
+                filtered = assignmentLocalService.getAssignmentsByCategory(categoryId);
+            } catch (PortalException e) {
+                throw new RuntimeException(e);
+            }
+
+            // tri
+            filtered.sort(comparator);
+
+            // count
+            count = filtered.size();
+
+            // pagination maison
+            int from = Math.min(start, filtered.size());
+            int to = Math.min(end, filtered.size());
+            entries = filtered.subList(from, to);
+
+        } else {
+            // Mode normal
+            entries = assignmentLocalService.getAssignmentsByGroupId(groupId, start, end);
+            count = assignmentLocalService.getAssignmentsCountByGroupId(groupId);
+
+            entries = new ArrayList<>(entries);
+            entries.sort(comparator);
+        }
+
         renderRequest.setAttribute("displayStyle", displayStyle);
         renderRequest.setAttribute("cur", cur);
         renderRequest.setAttribute("entries", entries);

@@ -313,6 +313,14 @@ public class AssignmentLocalServiceWrapper
 
 	@Override
 	public java.util.List<com.liferay.training.space.gradebook.model.Assignment>
+			getAssignmentsByCategory(long categoryId)
+		throws com.liferay.portal.kernel.exception.PortalException {
+
+		return _assignmentLocalService.getAssignmentsByCategory(categoryId);
+	}
+
+	@Override
+	public java.util.List<com.liferay.training.space.gradebook.model.Assignment>
 		getAssignmentsByGroupId(long groupId) {
 
 		return _assignmentLocalService.getAssignmentsByGroupId(groupId);
@@ -378,6 +386,12 @@ public class AssignmentLocalServiceWrapper
 	@Override
 	public int getAssignmentsCount() {
 		return _assignmentLocalService.getAssignmentsCount();
+	}
+
+	@Override
+	public int getAssignmentsCountByCategory(long categoryId) {
+		return _assignmentLocalService.getAssignmentsCountByCategory(
+			categoryId);
 	}
 
 	@Override

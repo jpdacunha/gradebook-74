@@ -66,10 +66,6 @@ public class AssignmentAssetRendererFactory extends
             throws Exception {
 
         Assignment assignment = _assignmentLocalService.getAssignment(classPK);
-        //FIXME: add assignment permission checker
-		/*return AssignmentPermissionChecker.contains(
-			permissionChecker,
-			assignment.getAssignmentId(), actionId);*/
         return true;
     }
 

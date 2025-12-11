@@ -1,4 +1,5 @@
 <%@ include file="/init.jsp" %>
+
 <div class="container mt-2" style="max-width: 1200px;">
 
 <liferay-ui:search-container
@@ -16,11 +17,16 @@
             modelVar="assignment">
 
         <!-- Colonne principale : titre + description -->
-        <liferay-ui:search-container-column-text name="Assignment">
 
-                <strong>${assignment.getTitle(locale)}</strong><br/>
-               <strong>${assignment.getUserName()}</strong><br/>
-                <small>${assignment.description}</small>
+     <liferay-ui:search-container-column-text name="Assignment">
+       <liferay-ui:user-portrait
+    userId="<%= assignment.getUserId() %>"
+    userName="<%= assignment.getUserName() %>"
+    cssClass="mr-2" />
+               <strong>${assignment.getUserName()}</strong>,
+               <small>${assignment.getModifiedDate()}</small><br/>
+                <strong style="margin-left:44px">${assignment.getTitle(locale)}</strong><br/>
+                <small style="margin-left:44px">${assignment.description}</small>
 
         </liferay-ui:search-container-column-text>
 

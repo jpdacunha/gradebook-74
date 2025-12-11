@@ -216,7 +216,8 @@ public class AssignmentServiceHttp {
 			updateAssignment(
 				HttpPrincipal httpPrincipal,
 				com.liferay.training.space.gradebook.model.Assignment
-					assignment)
+					assignment,
+				com.liferay.portal.kernel.service.ServiceContext serviceContext)
 		throws com.liferay.portal.kernel.exception.PortalException {
 
 		try {
@@ -225,7 +226,7 @@ public class AssignmentServiceHttp {
 				_updateAssignmentParameterTypes4);
 
 			MethodHandler methodHandler = new MethodHandler(
-				methodKey, assignment);
+				methodKey, assignment, serviceContext);
 
 			Object returnObj = null;
 
@@ -375,7 +376,8 @@ public class AssignmentServiceHttp {
 		};
 	private static final Class<?>[] _updateAssignmentParameterTypes4 =
 		new Class[] {
-			com.liferay.training.space.gradebook.model.Assignment.class
+			com.liferay.training.space.gradebook.model.Assignment.class,
+			com.liferay.portal.kernel.service.ServiceContext.class
 		};
 	private static final Class<?>[] _getAssignmentsByGroupIdParameterTypes5 =
 		new Class[] {long.class};

@@ -1,17 +1,32 @@
 package com.liferay.training.space.gradebook.display.context;
 
+import com.liferay.asset.kernel.model.AssetCategory;
+import com.liferay.asset.kernel.model.AssetVocabulary;
+import com.liferay.asset.kernel.service.AssetCategoryLocalServiceUtil;
+import com.liferay.asset.kernel.service.AssetVocabularyLocalServiceUtil;
 import com.liferay.frontend.taglib.clay.servlet.taglib.util.DropdownItem;
 import com.liferay.frontend.taglib.clay.servlet.taglib.util.DropdownItemList;
+import com.liferay.frontend.taglib.clay.servlet.taglib.util.DropdownItemListBuilder;
 import com.liferay.frontend.taglib.clay.servlet.taglib.util.ViewTypeItemList;
+import com.liferay.portal.kernel.dao.orm.QueryUtil;
+import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.portlet.LiferayPortletRequest;
 import com.liferay.portal.kernel.portlet.LiferayPortletResponse;
 import com.liferay.portal.kernel.portlet.LiferayPortletURL;
 import com.liferay.portal.kernel.portlet.PortletURLUtil;
 import com.liferay.portal.kernel.portlet.url.builder.PortletURLBuilder;
+import com.liferay.portal.kernel.theme.ThemeDisplay;
 import com.liferay.portal.kernel.util.ParamUtil;
+import com.liferay.portal.kernel.util.PortalUtil;
+import com.liferay.portal.kernel.util.WebKeys;
+import com.liferay.training.space.gradebook.model.Assignment;
+
 import javax.portlet.PortletURL;
 import javax.servlet.http.HttpServletRequest;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
+import java.util.stream.Collectors;
 
 public class GradebookManagementToolbarDisplayContext {
 
@@ -98,37 +113,162 @@ public class GradebookManagementToolbarDisplayContext {
         return cur;
     }
 
-    public List<DropdownItem> getFilterDropdownItems() {
 
+    public List<DropdownItem> getFilterDropdownItems() {
+        // 🔥 Récupérer la locale et themeDisplay si nécessaire
+        ThemeDisplay themeDisplay = (ThemeDisplay) _httpServletRequest.getAttribute(WebKeys.THEME_DISPLAY);
+
+        // 🔥 Récupérer l'utilisateur connecté
+        long userId = themeDisplay.getUserId();
+
+        // 🔥 Lire le paramètre "mine"
+        String mineParam = ParamUtil.getString(_httpServletRequest, "mine");
+
+        // 🔥 mineSelected = est-ce que le filtre "Mine" est actif ?
+        boolean mineSelected = mineParam.equals("true");
+        long selectedCategoryId = ParamUtil.getLong(_httpServletRequest, "categoryId");
         String currentOrder = ParamUtil.getString(_httpServletRequest, "orderByCol", "");
 
 
-        return new DropdownItemList() {{
-            add(dropdownItem -> {
-                dropdownItem.setLabel("Sort by Title");
-                dropdownItem.setActive(currentOrder.equals("title"));
-                dropdownItem.setHref(_getSearchURL(), "orderByCol",
-                        "title",
-                        "cur", getCurrentPage(),
-                        "keywords", getKeywords(),
-                        "displayStyle", getDisplayStyle()
+        return DropdownItemListBuilder
+                // -------------------------------------------------------------
+                // GROUP 1 — FILTER BY NAVIGATION
+                // -------------------------------------------------------------
+                .addGroup(
+                        group -> {
+                            group.setLabel("FILTER BY NAVIGATION");
 
-// 🔥 garder la pagination !
-                );
-            });
+                            group.setDropdownItems(
+                                    DropdownItemListBuilder.add(
+                                            dropdownItem -> {
+                                                dropdownItem.setLabel("All");
+                                                dropdownItem.setActive(selectedCategoryId == 0);
+                                                dropdownItem.setHref(
+                                                        _getSearchURL(),
+                                                        "categoryId", ""
+                                                );
+                                            }
+                                    ).build()
+                            );
+                        }
+                )
 
-            add(dropdownItem -> {
-                dropdownItem.setLabel("Sort by Description");
-                dropdownItem.setActive(currentOrder.equals("description"));
-                dropdownItem.setHref(_getSearchURL(), "orderByCol",
-                        "description",
-                        "cur", getCurrentPage(),
-                        "keywords", getKeywords(),
-                        "displayStyle", getDisplayStyle()
-                );
-            });
-        }};
+                // -------------------------------------------------------------
+                // GROUP 2 — ORDER BY
+                // -------------------------------------------------------------
+                .addGroup(
+                        group -> {
+                            group.setLabel("ORDER BY");
+
+                            group.setDropdownItems(
+                                    DropdownItemListBuilder.add(
+                                            dropdownItem -> {
+                                                dropdownItem.setLabel("Title");
+                                                dropdownItem.setActive(currentOrder.equals("title"));
+                                                dropdownItem.setHref(
+                                                        _getSearchURL(),
+                                                        "orderByCol",
+                                                        "title",
+                                                        "categoryId",
+                                                        ""
+                                                );
+                                            }
+                                    ).add(
+                                            dropdownItem -> {
+                                                dropdownItem.setLabel("Display Date");
+                                                dropdownItem.setActive(currentOrder.equals("displayDate"));
+                                                dropdownItem.setHref(
+                                                        _getSearchURL(),
+                                                        "orderByCol", "displayDate",
+                                                        "categoryId", ""
+                                                );
+                                            }
+                                    ).build()
+                            );
+                        }
+                )
+
+                // -------------------------------------------------------------
+                // GROUP 3 — FILTER BY CATEGORY
+                // -------------------------------------------------------------
+                .addGroup(
+                        group -> {
+                            group.setLabel("FILTER BY CATEGORY");
+
+                            group.setDropdownItems(_getCategoryDropdownItems(selectedCategoryId));
+                        }
+                )
+
+                .build();
     }
+
+
+    private List<DropdownItem> _getCategoryDropdownItems(long selectedCategoryId) {
+        ThemeDisplay themeDisplay =
+                (ThemeDisplay) _httpServletRequest.getAttribute(WebKeys.THEME_DISPLAY);
+
+
+        Locale locale = themeDisplay.getLocale();
+        List<DropdownItem> items = new ArrayList<>();
+
+        for (AssetVocabulary vocabulary : _getGradebookVocabularies()) {
+
+            List<AssetCategory> categories =
+                    AssetCategoryLocalServiceUtil.getVocabularyCategories(
+                            vocabulary.getVocabularyId(), QueryUtil.ALL_POS, QueryUtil.ALL_POS, null);
+
+            for (AssetCategory category : categories) {
+
+                items.add(DropdownItemListBuilder.add(
+                        dropdownItem -> {
+                            dropdownItem.setLabel(category.getTitle(locale));
+                            dropdownItem.setActive(category.getCategoryId() == selectedCategoryId);
+                            dropdownItem.setHref(
+                                    _getSearchURL(),
+                                    "categoryId", category.getCategoryId()
+                            );
+                        }
+                ).build().get(0));
+            }
+        }
+
+        return items;
+    }
+
+    private List<AssetVocabulary> _getGradebookVocabularies() {
+        try {
+            ThemeDisplay themeDisplay = (ThemeDisplay)_httpServletRequest.getAttribute(WebKeys.THEME_DISPLAY);
+
+            List<AssetVocabulary> vocabularies =
+                    AssetVocabularyLocalServiceUtil.getGroupVocabularies(themeDisplay.getScopeGroupId());
+
+            long assignmentClassNameId = PortalUtil.getClassNameId(Assignment.class);
+
+            return vocabularies.stream()
+                    .filter(v -> {
+                        long[] classNameIds = v.getSelectedClassNameIds();
+
+                        // ❗ Si le vocabulaire n'est lié à aucun asset → ignoré
+                        if (classNameIds == null || classNameIds.length == 0) {
+                            return false;
+                        }
+
+                        // ❗ On garde UNIQUEMENT les vocabulaires contenant Assignment
+                        for (long id : classNameIds) {
+                            if (id == assignmentClassNameId) {
+                                return true;
+                            }
+                        }
+                        return false;
+                    })
+                    .collect(Collectors.toList());
+
+        } catch (Exception e) {
+            return List.of();
+        }
+    }
+
+
 
     public String getOrderByType() {
         return ParamUtil.getString(_httpServletRequest, "orderByType", "asc");

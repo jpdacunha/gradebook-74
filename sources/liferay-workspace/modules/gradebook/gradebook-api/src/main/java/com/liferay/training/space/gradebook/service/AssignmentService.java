@@ -82,7 +82,8 @@ public interface AssignmentService extends BaseService {
 	 */
 	public String getOSGiServiceIdentifier();
 
-	public Assignment updateAssignment(Assignment assignment)
+	public Assignment updateAssignment(
+			Assignment assignment, ServiceContext serviceContext)
 		throws PortalException;
 
 }

@@ -86,7 +86,6 @@ public class AssignmentAssetRenderer extends BaseJSPAssetRenderer<Assignment> {
 			String template)
 		throws Exception {
 		request.setAttribute("ASSIGNMENT", _assignment);
-		//request.setAttribute("HtmlUtil", HtmlUtil.getHtml());
 		request.setAttribute("StringUtil", new StringUtil());
 		request.setAttribute(
 			"ABSTRACTLENGTH", GetterUtil.getInteger(

@@ -1,6 +1,8 @@
 package com.liferay.training.space.gradebook.service.impl;
 
 import com.liferay.asset.kernel.model.AssetEntry;
+import com.liferay.asset.kernel.service.persistence.AssetEntryQuery;
+import com.liferay.portal.kernel.dao.orm.QueryUtil;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.model.ResourceConstants;
 import com.liferay.portal.kernel.model.User;
@@ -10,6 +12,7 @@ import com.liferay.portal.kernel.service.ServiceContext;
 import com.liferay.portal.kernel.util.ContentTypes;
 import com.liferay.training.space.gradebook.model.Assignment;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -128,6 +131,18 @@ public class AssignmentLocalServiceImpl extends AssignmentLocalServiceBaseImpl {
 		return assignmentPersistence.countByGroupId(groupId);
 	}
 
+	public int getAssignmentsCountByCategory(long categoryId) {
+
+		AssetEntryQuery assetEntryQuery = new AssetEntryQuery();
+		assetEntryQuery.setAnyCategoryIds(new long[] { categoryId });
+		assetEntryQuery.setClassName(Assignment.class.getName());
+
+		return assetEntryLocalService.getEntriesCount(assetEntryQuery);
+	}
+
+
+
+
 	public List<Assignment> getAssignmentsByStatus(int status) {
 		return assignmentPersistence.findByStatus(status);
 	}
@@ -167,5 +182,30 @@ public class AssignmentLocalServiceImpl extends AssignmentLocalServiceBaseImpl {
 				0,
 				serviceContext.getAssetPriority()
 		);
+	}
+
+	public List<Assignment> getAssignmentsByCategory(long categoryId) throws PortalException {
+
+		AssetEntryQuery assetEntryQuery = new AssetEntryQuery();
+
+		// 🔥 filtrer sur la catégorie
+		assetEntryQuery.setAnyCategoryIds(new long[] { categoryId });
+
+		// 🔥 filtrer sur le type d’asset = Assignment
+		assetEntryQuery.setClassName(Assignment.class.getName());
+
+		// (optionnel) si tu veux limiter au site courant, tu peux aussi mettre les groupIds ici
+
+		List<AssetEntry> assetEntries = assetEntryLocalService.getEntries(assetEntryQuery);
+
+		List<Assignment> result = new ArrayList<>();
+
+		for (AssetEntry assetEntry : assetEntries) {
+			Assignment a = assignmentLocalService.fetchAssignment(assetEntry.getClassPK());
+			if (a != null) {
+				result.add(a);
+			}
+		}
+		return result;
 	}
 }
