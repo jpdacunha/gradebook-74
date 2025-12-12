@@ -39,3 +39,19 @@ GradebookManagementToolbarDisplayContext toolbarContext =
             <%@ include file="/table.jsp" %>
         </c:otherwise>
     </c:choose>
+
+<script>
+function <portlet:namespace />submitDelete() {
+
+    const form = document.getElementById('<portlet:namespace />fm');
+
+    if (!form) {
+        console.error('Form not found');
+        return;
+    }
+
+    form.action = '<portlet:actionURL name="/gradebook/assignment/delete" />';
+    form.submit();
+}
+</script>
+

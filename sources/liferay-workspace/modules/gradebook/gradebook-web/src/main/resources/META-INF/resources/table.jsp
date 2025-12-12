@@ -1,10 +1,11 @@
 <%@ include file="/init.jsp" %>
 <%@ taglib uri="http://liferay.com/tld/ui" prefix="liferay-ui" %>
+<%@ page import="com.liferay.portal.kernel.dao.search.RowChecker" %>
 <div class="container mt-2" style="max-width: 1200px;">
 <div class="card-body p-0">
-
+<aui:form name="fm" method="post">
 <liferay-ui:search-container
-        rowChecker="<%= new com.liferay.portal.kernel.dao.search.RowChecker(renderResponse) %>"
+        rowChecker="<%= new RowChecker(renderResponse) %>"
         id="gradebookEntries"
         delta="5"
         curParam="cur"
@@ -41,6 +42,7 @@
 
     <liferay-ui:search-iterator markupView="lexicon" />
 </liferay-ui:search-container>
+</aui:form>
 </div>
 </div>
 

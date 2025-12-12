@@ -316,11 +316,15 @@ public class GradebookManagementToolbarDisplayContext {
     }
 
     public List<DropdownItem> getActionDropdownItems() {
+
         return new DropdownItemList() {{
-            add(item -> {
-                item.setLabel("Delete");
-                item.setIcon("trash");
-                item.putData("action", "deleteAssignments");
+            add(dropdownItem -> {
+                dropdownItem.setLabel("Delete");
+                dropdownItem.setIcon("trash");
+                dropdownItem.setQuickAction(true);
+                dropdownItem.setHref(
+                        "javascript:" + _liferayPortletResponse.getNamespace() + "submitDelete();"
+                );
             });
         }};
     }
