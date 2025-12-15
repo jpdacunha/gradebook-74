@@ -25,6 +25,7 @@
 <liferay-frontend:defineObjects />
 
 <c:set var="portletNamespace"><portlet:namespace/></c:set>
+<%@ page import="com.liferay.portal.kernel.dao.search.RowChecker" %>
 
 <%@ page import="com.liferay.portal.kernel.security.permission.ActionKeys" %>
 <%@ page import="java.text.SimpleDateFormat" %>

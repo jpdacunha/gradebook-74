@@ -36,13 +36,17 @@
     </c:if>
 
     <c:if test="<%=hasPermissionsAssignmentPermission%>">
-        <portlet:renderURL var="permissionURL">
-            <portlet:param name="mvcRenderCommandName" value="/assignment/view_permission" />
-            </portlet:renderURL>
-            <liferay-ui:icon
-            message="permission"
-            url="<%= permissionURL %>"
-        />
+     <liferay-security:permissionsURL
+         modelResource="com.liferay.training.space.gradebook.model.Assignment"
+         modelResourceDescription="<%= assignment.getTitle(locale) %>"
+         resourcePrimKey="<%= String.valueOf(assignment.getAssignmentId()) %>"
+         var="permissionsURL"
+     />
+
+     <liferay-ui:icon
+         message="permissions"
+         url="<%= permissionsURL %>"
+     />
     </c:if>
 
     <c:if test="<%=hasDeleteAssignmentPermission%>">
