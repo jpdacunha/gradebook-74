@@ -1,5 +1,4 @@
 <%@ include file="/init.jsp" %>
-<%@ taglib uri="http://liferay.com/tld/ui" prefix="liferay-ui" %>
 <div class="container mt-2" style="max-width: 1200px;">
 <div class="card-body p-0">
 <aui:form name="fm" method="post">

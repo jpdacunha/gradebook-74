@@ -36,17 +36,19 @@
     </c:if>
 
     <c:if test="<%=hasPermissionsAssignmentPermission%>">
-     <liferay-security:permissionsURL
-         modelResource="com.liferay.training.space.gradebook.model.Assignment"
-         modelResourceDescription="<%= assignment.getTitle(locale) %>"
-         resourcePrimKey="<%= String.valueOf(assignment.getAssignmentId()) %>"
-         var="permissionsURL"
-     />
+ <liferay-security:permissionsURL
+     modelResource="com.liferay.training.space.gradebook.model.Assignment"
+     modelResourceDescription="<%= assignment.getTitle(locale) %>"
+     resourcePrimKey="<%= String.valueOf(assignment.getAssignmentId()) %>"
+     windowState="<%= LiferayWindowState.POP_UP.toString() %>"
+     var="permissionsURL"
+ />
 
-     <liferay-ui:icon
-         message="permissions"
-         url="<%= permissionsURL %>"
-     />
+   <liferay-ui:icon
+       message="permissions"
+       url="<%= permissionsURL %>"
+       useDialog="true"
+   />
     </c:if>
 
     <c:if test="<%=hasDeleteAssignmentPermission%>">
@@ -58,5 +60,4 @@
                 url="<%= deleteURL %>"
         />
     </c:if>
-
 </liferay-ui:icon-menu>

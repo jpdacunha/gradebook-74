@@ -1,5 +1,4 @@
-<%@ taglib uri="http://liferay.com/tld/clay" prefix="clay" %>
-<%@ page import="javax.portlet.PortletURL" %>
+
 <%@ include file="/init.jsp" %>
 
 <%
