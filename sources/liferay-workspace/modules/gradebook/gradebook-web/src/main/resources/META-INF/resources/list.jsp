@@ -1,8 +1,9 @@
 <%@ include file="/init.jsp" %>
 
 <div class="container mt-2" style="max-width: 1200px;">
-
+<aui:form name="fm" method="post">
 <liferay-ui:search-container
+       rowChecker="<%= new RowChecker(renderResponse) %>"
        iteratorURL="<%= iteratorURL %>"
        id="gradebookEntries"
         delta="5"
@@ -14,7 +15,9 @@
 
     <liferay-ui:search-container-row
             className="com.liferay.training.space.gradebook.model.Assignment"
-            modelVar="assignment">
+            modelVar="assignment"
+             keyProperty="assignmentId"
+             rowIdProperty="assignmentId">
 
         <!-- Colonne principale : titre + description -->
 
@@ -40,5 +43,14 @@
     <liferay-ui:search-iterator markupView="lexicon" />
 
 </liferay-ui:search-container>
-
+</aui:form>
 </div>
+<style>
+.table-list th, .table-list td
+Specificity: (0,1,1)
+ {
+    border-color: #e7e7ed;
+    border-style: solid;
+    border-width: 0rem;
+}
+</style>

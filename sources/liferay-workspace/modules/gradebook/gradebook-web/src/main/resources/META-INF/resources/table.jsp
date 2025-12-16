@@ -18,7 +18,6 @@
             keyProperty="assignmentId"
             rowIdProperty="assignmentId">
 
-
         <liferay-ui:search-container-column-text
                 name="Title"
                 value="${assignment.getTitle(locale)}" />
