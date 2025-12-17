@@ -1,8 +1,11 @@
 package com.liferay.training.space.gradebook.portlet.command;
 
+import com.liferay.portal.kernel.portlet.PortalPreferences;
+import com.liferay.portal.kernel.portlet.PortletPreferencesFactoryUtil;
 import com.liferay.portal.kernel.portlet.bridges.mvc.BaseMVCActionCommand;
 import com.liferay.portal.kernel.portlet.bridges.mvc.MVCActionCommand;
 import com.liferay.portal.kernel.servlet.SessionMessages;
+import com.liferay.portal.kernel.util.GetterUtil;
 import com.liferay.portal.kernel.util.ParamUtil;
 import com.liferay.training.space.gradebook.portlet.GradebookPortletKeys;
 import com.liferay.training.space.gradebook.service.AssignmentService;
@@ -28,6 +31,7 @@ public class DeleteAssignmentMVCActionCommand extends BaseMVCActionCommand {
 			ActionRequest actionRequest, ActionResponse actionResponse)
 			throws Exception {
 
+
 		String[] rowIds = ParamUtil.getParameterValues(
 				actionRequest, "rowIds"
 		);
@@ -42,6 +46,7 @@ public class DeleteAssignmentMVCActionCommand extends BaseMVCActionCommand {
 		}
 
 		SessionMessages.add(actionRequest, "assignments-deleted");
+
 	}
 
 	@Reference(cardinality = ReferenceCardinality.MANDATORY)

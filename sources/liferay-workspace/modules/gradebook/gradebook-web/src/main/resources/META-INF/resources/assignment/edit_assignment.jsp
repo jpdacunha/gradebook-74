@@ -2,7 +2,7 @@
 <%
     Assignment assignment = (Assignment) request.getAttribute("assignment");
     String redirect = ParamUtil.getString(request, "redirect");
-
+    String displayStyle = (String) renderRequest.getAttribute("displayStyle");
     // Formatage correct pour <input type="date">
     String dueDateFormatted = "";
 
@@ -30,6 +30,8 @@
     else {
         portletDisplay.setTitle("New Assignment");
     }
+PortletURL iteratorURL = renderResponse.createRenderURL();
+iteratorURL.setParameter("displayStyle", displayStyle);
 %>
 
 <portlet:actionURL var="actionURL"

@@ -27,14 +27,11 @@ import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 
-import javax.portlet.Portlet;
-import javax.portlet.PortletException;
-import javax.portlet.RenderRequest;
-import javax.portlet.RenderResponse;
+import javax.portlet.*;
+import javax.servlet.http.HttpSession;
 
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Reference;
-import org.osgi.service.component.annotations.ReferenceCardinality;
 
 @Component(
         immediate = true,
@@ -97,7 +94,7 @@ public class GradebookPortlet extends MVCPortlet {
         int end = start + delta;
 
         // Détermination du mode d’affichage (table / cards / list)
-        String displayStyle = getDisplayStyle(renderRequest, renderResponse, portalPreferences);
+        String displayStyle = getDisplayStyle(renderRequest, renderResponse);
 
         // Lecture de la colonne de tri
         String orderByCol = ParamUtil.getString(renderRequest, "orderByCol", "title");
@@ -150,16 +147,41 @@ public class GradebookPortlet extends MVCPortlet {
         return cur;
     }
 
-    // Gestion du mode d’affichage (table / cards) avec persistance
-    private String getDisplayStyle(RenderRequest request, RenderResponse response, PortalPreferences preferences) {
+    private String getDisplayStyle(
+            RenderRequest request,
+            RenderResponse response) {
+
         String namespace = response.getNamespace();
+
+        HttpSession session = PortalUtil.getHttpServletRequest(request).getSession();
+
+        String sessionKey = "GRADEBOOK_DISPLAY_STYLE";
+
+        // 1️⃣ Lecture depuis la requête
         String displayStyle = ParamUtil.getString(request, namespace + "displayStyle");
-        if (Validator.isNull(displayStyle)) displayStyle = ParamUtil.getString(request, "displayStyle");
-        boolean hasParams = Validator.isNotNull(displayStyle) || Validator.isNotNull(ParamUtil.getString(request, "orderByCol")) || Validator.isNotNull(ParamUtil.getString(request, "keywords")) || ParamUtil.getInteger(request, "cur", 0) > 0 || ParamUtil.getLong(request, "categoryId") > 0;
-        if (Validator.isNotNull(displayStyle)) { preferences.setValue(GradebookPortletKeys.PORTLET_NAME, "displayStyle", displayStyle); return displayStyle; }
-        if (!hasParams) { preferences.setValue(GradebookPortletKeys.PORTLET_NAME, "displayStyle", "table"); return "table"; }
-        return preferences.getValue(GradebookPortletKeys.PORTLET_NAME, "displayStyle", "table");
+
+        if (Validator.isNull(displayStyle)) {
+            displayStyle = ParamUtil.getString(request, "displayStyle");
+        }
+
+        // 2️⃣ Si l'utilisateur change le mode → on stocke en session
+        if (Validator.isNotNull(displayStyle)) {
+            session.setAttribute(sessionKey, displayStyle);
+            return displayStyle;
+        }
+
+        // 3️⃣ Sinon → on lit la session
+        displayStyle = (String) session.getAttribute(sessionKey);
+
+        if (Validator.isNotNull(displayStyle)) {
+            return displayStyle;
+        }
+
+        return "";
     }
+
+
+
 
     // Création du comparateur de tri sur le titre localisé
     private Comparator<Assignment> getComparator(ThemeDisplay themeDisplay, String orderByType) {

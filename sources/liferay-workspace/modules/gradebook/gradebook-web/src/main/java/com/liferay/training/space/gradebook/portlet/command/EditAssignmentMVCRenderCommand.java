@@ -1,7 +1,10 @@
 package com.liferay.training.space.gradebook.portlet.command;
 
 import com.liferay.portal.kernel.exception.PortalException;
+import com.liferay.portal.kernel.portlet.PortalPreferences;
+import com.liferay.portal.kernel.portlet.PortletPreferencesFactoryUtil;
 import com.liferay.portal.kernel.portlet.bridges.mvc.MVCRenderCommand;
+import com.liferay.portal.kernel.util.GetterUtil;
 import com.liferay.portal.kernel.util.ParamUtil;
 import com.liferay.training.space.gradebook.model.Assignment;
 import com.liferay.training.space.gradebook.portlet.GradebookPortletKeys;
@@ -28,6 +31,8 @@ public class EditAssignmentMVCRenderCommand implements MVCRenderCommand {
 	public String render(
 		RenderRequest renderRequest, RenderResponse renderResponse)
 			throws PortletException {
+
+
 
 		Assignment assignment = null;
 
