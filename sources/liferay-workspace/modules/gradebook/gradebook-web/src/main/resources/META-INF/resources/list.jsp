@@ -12,45 +12,122 @@
         emptyResultsMessage="No assignments found">
 
     <liferay-ui:search-container-results results="${entries}" />
+ <ul class="list-group list-group-notification show-quick-actions-on-hover">
 
-    <liferay-ui:search-container-row
+        <liferay-ui:search-container-row
             className="com.liferay.training.space.gradebook.model.Assignment"
             modelVar="assignment"
-             keyProperty="assignmentId"
-             rowIdProperty="assignmentId">
+            keyProperty="assignmentId"
+            rowIdProperty="assignmentId">
 
-        <!-- Colonne principale : titre + description -->
+          <!-- COLONNE PRINCIPALE (comme Blogs) -->
+               <liferay-ui:search-container-column-text>
 
-     <liferay-ui:search-container-column-text name="Assignment">
-       <liferay-ui:user-portrait
-    userId="<%= assignment.getUserId() %>"
-    userName="<%= assignment.getUserName() %>"
-    cssClass="mr-2" />
-               <strong>${assignment.getUserName()}</strong>,
-               <small>${assignment.getModifiedDate()}</small><br/>
-                <strong style="margin-left:44px">${assignment.getTitle(locale)}</strong><br/>
-                <small style="margin-left:44px">${assignment.description}</small>
+                   <div class="entry-row">
 
-        </liferay-ui:search-container-column-text>
+                       <liferay-ui:user-portrait
+                           userId="<%= assignment.getUserId() %>"
+                           userName="<%= assignment.getUserName() %>"
+                           cssClass="entry-avatar" />
 
-        <!-- Colonne des actions -->
-        <liferay-ui:search-container-column-jsp
-                       cssClass="table-column-text-end"
+                       <div class="entry-content">
+
+                           <div class="entry-meta">
+                               ${assignment.getUserName()}
+                               ·
+                               <fmt:formatDate value="${assignment.getModifiedDate()}" pattern="dd/MM/yyyy HH:mm"/>
+                           </div>
+                               <div class="entry-title">
+                               <strong><u>${assignment.getTitle(locale)}</u></strong>
+                           </div>
+                           <div class="entry-description">
+                               ${assignment.description}
+                           </div>
+                       </div>
+
+                   </div>
+
+               </liferay-ui:search-container-column-text>
+
+                       <liferay-ui:search-container-column-jsp
+                       cssClass="assignment-actions-cell"
                        path="/assignment/assignment_actions.jsp" />
 
-    </liferay-ui:search-container-row>
+          </liferay-ui:search-container-row>
+        <liferay-ui:search-iterator markupView="lexicon" />
 
-    <liferay-ui:search-iterator markupView="lexicon" />
+          </liferay-ui:search-container>
 
-</liferay-ui:search-container>
-</aui:form>
-</div>
+          </aui:form>
+      </div>
 <style>
-.table-list th, .table-list td
-Specificity: (0,1,1)
- {
+/* Ligne principale (checkbox + contenu alignés) */
+.lfr-search-container-wrapper tbody tr {
+    display: flex;
+    align-items: flex-start;
+}
+
+
+/* Checkbox */
+.lfr-search-container-wrapper .lfr-checkbox-column {
+    flex: 0 0 32px;
+    margin-top: 14px;
+}
+
+/* Contenu de la ligne */
+.entry-row {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+}
+
+/* Avatar */
+.entry-avatar {
+    flex: 0 0 auto;
+}
+
+/* Bloc texte */
+.entry-content {
+    display: flex;
+    flex-direction: column;
+}
+
+/* Titre : UNE SEULE LIGNE */
+.entry-title {
+    font-weight: 600;
+    white-space: nowrap;        /* 🔥 clé */
+}
+
+/* Meta */
+.entry-meta {
+    font-size: 13px;
+    color: #6b6c7e;
+}
+
+/* Description */
+.entry-description {
+    font-size: 14px;
+    color: #272833;
+}
+.table-list th, .table-list td {
     border-color: #e7e7ed;
     border-style: solid;
     border-width: 0rem;
 }
+/* Contenu principal */
+.lfr-search-container-wrapper td:not(.lfr-checkbox-column):not(.assignment-actions-cell) {
+    flex: 1;
+    margin-top: 15PX;
+}
+
+
+/* Actions à droite */
+.assignment-actions-cell {
+    flex: 0 0 48px;
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+}
+
+
 </style>

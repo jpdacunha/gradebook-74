@@ -53,7 +53,7 @@
 
     <c:if test="<%=hasDeleteAssignmentPermission%>">
         <portlet:actionURL name="/gradebook/assignment/delete" var="deleteURL">
-            <portlet:param name="assignmentId" value="<%= String.valueOf(assignment.getAssignmentId()) %>" />
+            <portlet:param name="rowIds" value="<%= String.valueOf(assignment.getAssignmentId()) %>" />
             </portlet:actionURL>
             <liferay-ui:icon
                 message="delete"
