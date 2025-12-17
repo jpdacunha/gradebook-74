@@ -43,7 +43,7 @@ Le projet est composé de plusieurs modules Liferay :
 ## ⚙️ Prérequis
 
 - Java 11
-- Liferay **7.4 GA** (GAxxx recommandé)
+- Liferay **7.4 GA** (GA107 recommandé)
 - Gradle (fourni avec Liferay Workspace)
 - Base de données configurée (PostgreSQL / MySQL / H2)
 - Git
