@@ -7,8 +7,6 @@ import java.util.Locale;
 import java.util.Map;
 
 import javax.portlet.ActionRequest;
-
-import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.theme.ThemeDisplay;
 import com.liferay.portal.kernel.util.LocalizationUtil;
 import com.liferay.portal.kernel.util.ParamUtil;
@@ -37,16 +35,12 @@ public class GradebookPortletUtil {
 	/**
 	 * Assemble l'objet Assignment à partir des paramètres du formulaire
 	 */
-	public static void assembleAssignment(
-			ActionRequest request, Assignment assignment)
-			throws PortalException {
+	public static void assembleAssignment(ActionRequest request, Assignment assignment) {
 
-		ThemeDisplay themeDisplay =
-				(ThemeDisplay) request.getAttribute(WebKeys.THEME_DISPLAY);
+		ThemeDisplay themeDisplay = (ThemeDisplay) request.getAttribute(WebKeys.THEME_DISPLAY);
 
 		// Champs du formulaire
-		Map<Locale, String> title =
-				LocalizationUtil.getLocalizationMap(request, "title");
+		Map<Locale, String> title = LocalizationUtil.getLocalizationMap(request, "title");
 
 		String description = ParamUtil.getString(request, "description");
 		String dueDateString = ParamUtil.getString(request, "dueDate");

@@ -1,5 +1,4 @@
 <%@ include file="/init.jsp" %>
-
 <div class="container mt-2" style="max-width: 1200px;">
 <aui:form name="fm" method="post">
 <liferay-ui:search-container

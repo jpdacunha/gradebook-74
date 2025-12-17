@@ -36,9 +36,7 @@ public class GradebookPanelApp extends BasePanelApp {
         return GradebookPortletKeys.PORTLET_NAME;
     }
 
-    @Reference(
-            target = "(javax.portlet.name=" + GradebookPortletKeys.PORTLET_NAME + ")"
-    )
+    @Reference(target = "(javax.portlet.name=" + GradebookPortletKeys.PORTLET_NAME + ")")
     private Portlet _portlet;
 
 }

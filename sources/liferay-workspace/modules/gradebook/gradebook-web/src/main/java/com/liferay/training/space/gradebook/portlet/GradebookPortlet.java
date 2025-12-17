@@ -146,42 +146,28 @@ public class GradebookPortlet extends MVCPortlet {
         preferences.setValue(GradebookPortletKeys.PORTLET_NAME, "cur", String.valueOf(cur));
         return cur;
     }
-
-    private String getDisplayStyle(
-            RenderRequest request,
-            RenderResponse response) {
-
+    // permet de get DisplayStyle
+    private String getDisplayStyle(RenderRequest request, RenderResponse response) {
         String namespace = response.getNamespace();
-
         HttpSession session = PortalUtil.getHttpServletRequest(request).getSession();
-
         String sessionKey = "GRADEBOOK_DISPLAY_STYLE";
-
         // 1️⃣ Lecture depuis la requête
         String displayStyle = ParamUtil.getString(request, namespace + "displayStyle");
-
         if (Validator.isNull(displayStyle)) {
             displayStyle = ParamUtil.getString(request, "displayStyle");
         }
-
         // 2️⃣ Si l'utilisateur change le mode → on stocke en session
         if (Validator.isNotNull(displayStyle)) {
             session.setAttribute(sessionKey, displayStyle);
             return displayStyle;
         }
-
         // 3️⃣ Sinon → on lit la session
         displayStyle = (String) session.getAttribute(sessionKey);
-
         if (Validator.isNotNull(displayStyle)) {
             return displayStyle;
         }
-
         return "";
     }
-
-
-
 
     // Création du comparateur de tri sur le titre localisé
     private Comparator<Assignment> getComparator(ThemeDisplay themeDisplay, String orderByType) {

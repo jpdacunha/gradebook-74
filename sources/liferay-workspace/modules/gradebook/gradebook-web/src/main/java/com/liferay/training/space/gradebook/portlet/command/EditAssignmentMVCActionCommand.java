@@ -31,33 +31,31 @@ import org.osgi.service.component.annotations.ReferenceCardinality;
 	service = MVCActionCommand.class)
 public class EditAssignmentMVCActionCommand extends BaseMVCActionCommand {
 
-			@Override
+	@Reference(cardinality = ReferenceCardinality.MANDATORY)
+	protected AssignmentService assignmentService;
+
+	@Override
 	protected void doProcessAction(
 			ActionRequest actionRequest, ActionResponse actionResponse) 
 		throws Exception {
 
 		long assignmentId = ParamUtil.getLong(actionRequest, "assignmentId");
 
-		Assignment assignment = _assignmentService.getAssignment(assignmentId);
+		Assignment assignment = assignmentService.getAssignment(assignmentId);
 
 		GradebookPortletUtil.assembleAssignment(actionRequest, assignment);
 
 		List<String> errors = new ArrayList<>();
-		
 		if (AssignmentValidator.isAssignmentValid(assignment, errors)) {
 			// 🔥 Récupération du ServiceContext contenant les catégories
 			ServiceContext serviceContext = ServiceContextFactory.getInstance(
 					Assignment.class.getName(), actionRequest);
-			_assignmentService.updateAssignment(assignment, serviceContext);
+			assignmentService.updateAssignment(assignment, serviceContext);
 
 			SessionMessages.add(actionRequest, "assignment-updated");
-
 			sendRedirect(actionRequest, actionResponse);
 		} else {
 			throw new Exception("Invalid form data");
 		}
 	}
-
-	@Reference(cardinality = ReferenceCardinality.MANDATORY)
-	protected AssignmentService _assignmentService;
 }

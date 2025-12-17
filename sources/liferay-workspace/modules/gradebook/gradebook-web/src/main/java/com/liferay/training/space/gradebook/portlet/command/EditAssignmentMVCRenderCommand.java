@@ -1,16 +1,11 @@
 package com.liferay.training.space.gradebook.portlet.command;
 
 import com.liferay.portal.kernel.exception.PortalException;
-import com.liferay.portal.kernel.portlet.PortalPreferences;
-import com.liferay.portal.kernel.portlet.PortletPreferencesFactoryUtil;
 import com.liferay.portal.kernel.portlet.bridges.mvc.MVCRenderCommand;
-import com.liferay.portal.kernel.util.GetterUtil;
 import com.liferay.portal.kernel.util.ParamUtil;
 import com.liferay.training.space.gradebook.model.Assignment;
 import com.liferay.training.space.gradebook.portlet.GradebookPortletKeys;
 import com.liferay.training.space.gradebook.service.AssignmentService;
-
-import javax.portlet.PortletException;
 import javax.portlet.RenderRequest;
 import javax.portlet.RenderResponse;
 
@@ -27,10 +22,12 @@ import org.osgi.service.component.annotations.ReferenceCardinality;
 
 public class EditAssignmentMVCRenderCommand implements MVCRenderCommand {
 
+	@Reference(cardinality = ReferenceCardinality.MANDATORY)
+	private AssignmentService assignmentService;
+
 	@Override
 	public String render(
-		RenderRequest renderRequest, RenderResponse renderResponse)
-			throws PortletException {
+		RenderRequest renderRequest, RenderResponse renderResponse) {
 
 
 
@@ -41,7 +38,7 @@ public class EditAssignmentMVCRenderCommand implements MVCRenderCommand {
 
 		if (assignmentId > 0) {
 			try {
-				assignment = _assignmentService.getAssignment(assignmentId);
+				assignment = assignmentService.getAssignment(assignmentId);
 
 				title = "Edit Assignment";
 			}
@@ -56,6 +53,5 @@ public class EditAssignmentMVCRenderCommand implements MVCRenderCommand {
 		return "/assignment/edit_assignment.jsp";
 	}
 
-	@Reference(cardinality = ReferenceCardinality.MANDATORY)
-	private AssignmentService _assignmentService;
+
 }

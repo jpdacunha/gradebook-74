@@ -1,6 +1,4 @@
-
 <%@ include file="/init.jsp" %>
-
 <%
 Boolean hasAddObj = (Boolean) request.getAttribute("hasAddAssignmentPermission");
 boolean hasAddPermission = (hasAddObj != null ? hasAddObj : false);

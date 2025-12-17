@@ -26,6 +26,9 @@ import org.osgi.service.component.annotations.ReferenceCardinality;
 	service = MVCActionCommand.class)
 public class DeleteAssignmentMVCActionCommand extends BaseMVCActionCommand {
 
+	@Reference(cardinality = ReferenceCardinality.MANDATORY)
+	protected AssignmentService assignmentService;
+
 	@Override
 	protected void doProcessAction(
 			ActionRequest actionRequest, ActionResponse actionResponse)
@@ -42,13 +45,12 @@ public class DeleteAssignmentMVCActionCommand extends BaseMVCActionCommand {
 
 		for (String rowId : rowIds) {
 			long assignmentId = Long.parseLong(rowId);
-			_assignmentService.deleteAssignment(assignmentId);
+			assignmentService.deleteAssignment(assignmentId);
 		}
 
 		SessionMessages.add(actionRequest, "assignments-deleted");
 
 	}
 
-	@Reference(cardinality = ReferenceCardinality.MANDATORY)
-	protected AssignmentService _assignmentService;
+
 }
